@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="progress-bar">
+                <div class="completed"></div>
+            </div>
+            <div class="question">
+                <h1>Question 1</h1>
+                <p>What is the capital of Vietnam?</p>
+            </div>
+            <form class="answers">
+                <div class="answer">
+                    <div class="card">
+                        <p class="card-text">Hanoi</p>
+                    </div>
+                </div>
+                <div class="answer">
+                    <div class="card">
+                        <p class="card-text">Ho Chi Minh City</p>
+                    </div>
+                </div>
+                <div class="answer">
+                    <div class="card">
+                        <p class="card-text">Da Nang</p>
+                    </div>
+                </div>
+                <div class="answer">
+                    <div class="card selected">
+                        <p class="card-text">Ha Long</p>
+                    </div>
+                </div>
+            </form>
+            <button id="submit-button">Kiểm tra</button>
+            <div id="result-overlay" class="hidden wrong">
+                <div id="result-modal">
+                    <h2 id="result-text">Không chính xác</h2>
+                    <p id="result-message">Vâng, cà phê</p>
+                    <button id="next-button">Đã hiểu</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="index.js"></script>
+    </body>
+</html>
