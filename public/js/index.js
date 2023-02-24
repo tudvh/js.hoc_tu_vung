@@ -1,3 +1,4 @@
+// Select elements
 const answers = document.querySelectorAll(".answers .card");
 const submitButton = document.getElementById("submit-button");
 const resultOverlay = document.getElementById("result-overlay");
@@ -8,25 +9,29 @@ const resultIcon = document.getElementById("result-icon");
 const nextButton = document.getElementById("next-button");
 var answer_text = null;
 
-load_audio();
+// Load questions and answers on page load
+window.onload = function () {
+    get_list_questionAnswer();
+    load_audio();
+};
 
-// Thêm sự kiện khi click chọn đáp án
+// Add event listener for selecting an answer
 answers.forEach((answer) => {
     answer.addEventListener("click", () => {
         answers.forEach((a) => a.classList.remove("selected"));
         answer.classList.add("selected");
-        // Lưu câu trả lời
+        // Save answer text
         answer_text = answer.querySelector(".card-text").innerText;
-        // undisable submit button
+        // Enable submit button
         submitButton.classList.remove("disabled");
     });
 });
 
-// Thêm sự kiện click cho nút submit
+// Add event listener for submitting answer
 submitButton.addEventListener("click", function (event) {
-    event.preventDefault(); // Ngăn chặn trang web tải lại khi nhấn nút submit
+    event.preventDefault(); // Prevent page from reloading on submit
 
-    if (answer_text == "Hanoi") {
+    if (answer_text == get_correct_answer()) {
         display_correct();
         play_correct_audio();
     } else {
@@ -34,19 +39,20 @@ submitButton.addEventListener("click", function (event) {
         play_wrong_audio();
     }
 
-    // Hiển thị overlay kết quả
+    // Show result overlay
     resultOverlay.classList.remove("hidden");
 
-    // undisable next button
+    // Enable next button after delay
     setTimeout(function () {
         nextButton.classList.remove("disabled");
     }, 200);
 });
 
-// Thêm sự kiện click cho nút next
+// Add event listener for next button
 nextButton.addEventListener("click", function (event) {
     event.preventDefault();
-    resultOverlay.classList.add("hidden");
-    // disable next button
-    nextButton.classList.add("disabled");
+    reset_css_question();
+    // Show next question
+    question_current++;
+    show_question(question_current);
 });

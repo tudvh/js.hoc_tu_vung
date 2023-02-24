@@ -22,10 +22,7 @@
                 </div>
             </header>
 
-            <div class="question">
-                <h1>Question 1</h1>
-                <p>What is the capital of Vietnam?</p>
-            </div>
+            <div id="question"></div>
 
             <form class="answers">
                 <div class="answer">
@@ -64,9 +61,11 @@
             </div>
         </div>
 
-        <div class="load hidden">
-            <div class="bi-loader">
-                <i class="bi bi-arrow-repeat"></i>
+        <div class="load-wrapper hidden">
+            <div class="load">
+                <div class="bi-loader">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
             </div>
         </div>
 
@@ -81,7 +80,17 @@
             ></audio>
         </div>
 
+        <!-- Thư viện đọc file csv -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+            integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <!-- Link js local -->
         <script src="public/js/module.js"></script>
+        <script src="public/js/question.js"></script>
         <script src="public/js/index.js"></script>
     </body>
 </html>

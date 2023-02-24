@@ -68,7 +68,7 @@ header {
     border-radius: 20px;
 }
 
-.question {
+#question {
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 24px;
@@ -77,18 +77,23 @@ header {
     border-color: var(--grey);
 }
 
-.question h1 {
+#question h1 {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 8px;
     color: #4d4d4d;
 }
 
-.question p {
+#question p {
     font-size: 20px;
     font-weight: 400;
     margin-bottom: 16px;
     color: #4d4d4d;
+}
+
+#question p strong {
+    color: #000;
+    font-size: 21px;
 }
 
 .answers {
@@ -267,36 +272,52 @@ button:hover {
 }
 
 /* icon load */
+.load-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: #fff;
+}
+
 .load {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .load .bi-loader {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
 }
 
 .load .bi-loader i {
-    font-size: 50px;
+    font-size: 80px;
     color: rgba(255, 255, 255, 0.9);
 }
 
 /* icon quay */
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
+    0% {
+        transform: rotate(90deg);
+        animation-timing-function: ease-in-out;
     }
-    to {
-        transform: rotate(360deg);
+    70% {
+        transform: rotate(135deg);
+        animation-timing-function: ease-in-out;
+    }
+    100% {
+        transform: rotate(450deg);
+        animation-timing-function: ease-in-out;
     }
 }
 .load .bi-loader i.bi-arrow-repeat::before {
