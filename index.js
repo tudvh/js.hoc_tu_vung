@@ -22,7 +22,7 @@ answers.forEach((answer) => {
 submitButton.addEventListener("click", function (event) {
     event.preventDefault(); // Ngăn chặn trang web tải lại khi nhấn nút submit
 
-    if (answer_text) {
+    if (answer_text == "Hanoi") {
         resultModal.classList.remove("wrong");
         resultModal.classList.add("correct");
         resultText.textContent = "Tuyệt vời!";
