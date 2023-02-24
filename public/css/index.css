@@ -8,7 +8,8 @@
     --blue-bg: #ddf3fe;
     --blue-color: #84d7ff;
     --blue-text: #1cb0f6;
-    --grey-border: #e5e5e5;
+    --grey: #e5e5e5;
+    --grey-text: #afafaf;
     --text-color: #4b4b4b;
     --white: #fffffd;
 }
@@ -73,7 +74,7 @@ header {
     margin-bottom: 24px;
     border-style: solid;
     border-width: 2px 3px 4px;
-    border-color: var(--grey-border);
+    border-color: var(--grey);
 }
 
 .question h1 {
@@ -108,10 +109,14 @@ header {
     padding: 16px;
     display: flex;
     align-items: center;
-    transition: all 0.2s ease-in-out;
     border-style: solid;
     border-width: 2px 3px 4px;
-    border-color: var(--grey-border);
+    border-color: var(--grey);
+    transition: all 0.1s ease-in-out;
+}
+
+.card:focus {
+    outline: none;
 }
 
 .card-text {
@@ -124,8 +129,8 @@ header {
 .card.selected {
     background-color: var(--blue-bg);
     color: var(--blue-bg);
-    transition: all 0.2s ease-in-out;
     border-color: var(--blue-color);
+    transition: all 0.1s ease-in-out;
 }
 
 .card.selected > .card-text {
@@ -143,10 +148,21 @@ button {
     border-radius: 15px;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.2s ease-in-out;
     border-style: solid;
     border-width: 2px 3px 4px;
     border-color: var(--green-border);
+    transition: all 0.1s ease-in-out;
+}
+
+button:focus {
+    outline: none;
+}
+
+button.disabled {
+    pointer-events: none;
+    background-color: var(--grey) !important;
+    color: var(--grey-text) !important;
+    border-color: var(--grey) !important;
 }
 
 button:hover {

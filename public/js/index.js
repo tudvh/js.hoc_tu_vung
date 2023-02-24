@@ -8,13 +8,17 @@ const resultIcon = document.getElementById("result-icon");
 const nextButton = document.getElementById("next-button");
 var answer_text = null;
 
-// bắt sự kiện khi click chọn đáp án
+load_audio();
+
+// Thêm sự kiện khi click chọn đáp án
 answers.forEach((answer) => {
     answer.addEventListener("click", () => {
         answers.forEach((a) => a.classList.remove("selected"));
         answer.classList.add("selected");
         // Lưu câu trả lời
         answer_text = answer.querySelector(".card-text").innerText;
+        // undisable submit button
+        submitButton.classList.remove("disabled");
     });
 });
 
@@ -23,31 +27,26 @@ submitButton.addEventListener("click", function (event) {
     event.preventDefault(); // Ngăn chặn trang web tải lại khi nhấn nút submit
 
     if (answer_text == "Hanoi") {
-        resultModal.classList.remove("wrong");
-        resultModal.classList.add("correct");
-        resultText.textContent = "Tuyệt vời!";
-        resultMessage.textContent = "";
-        nextButton.textContent = "Tiếp theo";
-        resultIcon.classList.remove("bi-x-circle-fill");
-        resultIcon.classList.add("bi-check-circle-fill");
+        display_correct();
         play_correct_audio();
     } else {
-        resultModal.classList.remove("correct");
-        resultModal.classList.add("wrong");
-        resultText.textContent = "Không chính xác";
-        resultMessage.textContent = "Vui lòng thử lại";
-        nextButton.textContent = "Đã hiểu";
-        resultIcon.classList.remove("bi-check-circle-fill");
-        resultIcon.classList.add("bi-x-circle-fill");
+        display_wrong();
         play_wrong_audio();
     }
 
     // Hiển thị overlay kết quả
     resultOverlay.classList.remove("hidden");
+
+    // undisable next button
+    setTimeout(function () {
+        nextButton.classList.remove("disabled");
+    }, 200);
 });
 
 // Thêm sự kiện click cho nút next
 nextButton.addEventListener("click", function (event) {
     event.preventDefault();
     resultOverlay.classList.add("hidden");
+    // disable next button
+    nextButton.classList.add("disabled");
 });
