@@ -162,7 +162,6 @@ button:hover {
     width: calc(100% - 40px);
 }
 
-/* Correct answer */
 #result-overlay {
     position: fixed;
     z-index: 1;
@@ -174,22 +173,25 @@ button:hover {
 }
 
 #result-modal {
+    width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
-    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--green-bg);
-    padding: 20px;
+    padding: 30px 20px;
+}
+
+#result-icon {
+    font-size: 24px;
+    margin-right: 10px;
 }
 
 #result-text {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: var(--green-border);
 }
 
 #result-message {
@@ -200,19 +202,52 @@ button:hover {
     margin-top: 20px;
 }
 
+#result-modal.correct,
+#result-modal.wrong {
+    animation-name: slide-up;
+    animation-duration: 0.2s;
+}
+
+/* Correct answer */
+#result-modal.correct {
+    background-color: var(--green-bg);
+}
+
+#result-modal.correct #result-text,
+#result-modal.correct #result-message,
+#result-modal.correct #result-icon {
+    color: var(--green-border);
+}
+
+#result-modal.correct button {
+    background-color: var(--green-color);
+    border-color: var(--green-border);
+}
+
 /* Wrong answer */
-#result-overlay.wrong #result-modal {
+#result-modal.wrong {
     background-color: var(--red-bg);
 }
 
-#result-overlay.wrong #result-text,
-#result-overlay.wrong #result-message {
+#result-modal.wrong #result-text,
+#result-modal.wrong #result-message,
+#result-modal.wrong #result-icon {
     color: var(--red-border);
 }
 
-#result-overlay.wrong button {
+#result-modal.wrong button {
     background-color: var(--red-color);
     border-color: var(--red-border);
+}
+
+/* animation result */
+@keyframes slide-up {
+    0% {
+        transform: translateY(50%);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /* icon load */
@@ -254,4 +289,8 @@ button:hover {
 
 .hidden {
     display: none;
+}
+
+.flex {
+    display: flex;
 }
