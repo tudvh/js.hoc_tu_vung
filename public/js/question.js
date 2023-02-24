@@ -13,7 +13,7 @@ async function get_list_questionAnswer() {
         // show loader
         load_html.classList.remove("hidden");
 
-        const response = await fetch("../public/csv/vocabulary.csv");
+        const response = await fetch("public/csv/vocabulary.csv");
         const data = await response.text();
         const results = await Papa.parse(data, {
             header: true,
