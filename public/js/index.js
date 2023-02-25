@@ -1,5 +1,6 @@
 // Select elements
 const answers = document.querySelectorAll(".answers .card");
+const buttons = document.querySelectorAll("button");
 const submitButton = document.getElementById("submit-button");
 const resultOverlay = document.getElementById("result-overlay");
 const resultModal = document.getElementById("result-modal");
@@ -25,6 +26,52 @@ answers.forEach((answer) => {
         // Enable submit button
         submitButton.classList.remove("disabled");
     });
+
+    answer.addEventListener("mousedown", () => {
+        answer.classList.add("active");
+    });
+
+    answer.addEventListener("mouseup", () => {
+        answer.classList.remove("active");
+    });
+
+    answer.addEventListener("mouseleave", () => {
+        setTimeout(function () {
+            answer.classList.remove("active");
+        }, 300);
+    });
+
+    answer.addEventListener("touchstart", () => {
+        answer.classList.add("active");
+    });
+
+    answer.addEventListener("touchend", () => {
+        answer.classList.remove("active");
+    });
+});
+
+buttons.forEach((button) => {
+    button.addEventListener("mousedown", () => {
+        button.classList.add("active");
+    });
+
+    button.addEventListener("mouseup", () => {
+        button.classList.remove("active");
+    });
+
+    button.addEventListener("mouseleave", () => {
+        setTimeout(function () {
+            button.classList.remove("active");
+        }, 300);
+    });
+
+    button.addEventListener("touchstart", () => {
+        button.classList.add("active");
+    });
+
+    button.addEventListener("touchend", () => {
+        button.classList.remove("active");
+    });
 });
 
 // Add event listener for submitting answer
@@ -46,6 +93,9 @@ submitButton.addEventListener("click", function (event) {
     setTimeout(function () {
         nextButton.classList.remove("disabled");
     }, 200);
+
+    // Disable submit button
+    submitButton.classList.add("disabled");
 });
 
 // Add event listener for next button

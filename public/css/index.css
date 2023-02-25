@@ -73,7 +73,7 @@ header {
     padding: 20px;
     margin-bottom: 24px;
     border-style: solid;
-    border-width: 2px 3px 4px;
+    border-width: 3px;
     border-color: var(--grey);
 }
 
@@ -115,13 +115,14 @@ header {
     display: flex;
     align-items: center;
     border-style: solid;
-    border-width: 2px 3px 4px;
+    border-width: 3px 3px 8px;
     border-color: var(--grey);
     transition: all 0.1s ease-in-out;
 }
 
-.card:focus {
-    outline: none;
+.card.active {
+    border-width: 3px;
+    transition: all 0.1s ease-in-out;
 }
 
 .card-text {
@@ -154,17 +155,19 @@ button {
     cursor: pointer;
     text-transform: uppercase;
     border-style: solid;
-    border-width: 2px 3px 4px;
+    border-width: 0 0 8px;
     border-color: var(--green-border);
     transition: all 0.1s ease-in-out;
 }
 
-button:focus {
-    outline: none;
+button.active {
+    border-width: 0;
+    transition: all 0.1s ease-in-out;
 }
 
 button.disabled {
     pointer-events: none;
+    border-width: 0;
     background-color: var(--grey) !important;
     color: var(--grey-text) !important;
     border-color: var(--grey) !important;
@@ -330,4 +333,14 @@ button:hover {
 
 .flex {
     display: flex;
+}
+
+@media only screen and (max-width: 400px) {
+    .card {
+        cursor: default;
+    }
+
+    button {
+        cursor: default;
+    }
 }
