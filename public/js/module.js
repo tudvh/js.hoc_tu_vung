@@ -20,6 +20,19 @@ function choose_random_obj(obj, count) {
     return randomValues;
 }
 
+// Select random elements from an array
+function choose_random_elements(arr, count, excluded_element) {
+    const chosenIndexes = new Set();
+    while (chosenIndexes.size < count) {
+        let index = Math.floor(Math.random() * arr.length);
+        if (arr[index] === excluded_element) {
+            continue;
+        }
+        chosenIndexes.add(index);
+    }
+    return Array.from(chosenIndexes).map((index) => arr[index]);
+}
+
 // shuffle an array randomly
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {

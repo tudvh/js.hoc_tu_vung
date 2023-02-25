@@ -3,8 +3,8 @@ const question_html = document.getElementById("question");
 const load_html = document.querySelector(".load-wrapper");
 
 // Initialize variables for the list of questions, the list of questions to be shown, and the current question number
-let questions_all_obj = null;
 let questions_show_obj = null;
+let list_answer = null;
 let question_current = 0;
 
 // Asynchronously fetch the list of question-answer pairs from a CSV file and parse it using the Papa.parse library
@@ -20,12 +20,16 @@ async function get_list_questionAnswer() {
             delimiter: ",",
             skipEmptyLines: true,
         });
-        // set data
-        questions_all_obj = results.data;
-        questions_all_obj = capitalizeFirstLetterQA(questions_all_obj);
+        // set data all question answer
+        all_questions = results.data;
+        all_questions = capitalizeFirstLetterQA(all_questions);
 
-        questions_show_obj = choose_random_obj(questions_all_obj, 10);
+        // set data question show
+        questions_show_obj = choose_random_obj(all_questions, 10);
         console.log(questions_show_obj);
+
+        // set data list answer
+        list_answer = get_list_answer(all_questions);
 
         show_question(question_current);
     } catch (error) {
@@ -43,7 +47,7 @@ function show_question(index_q) {
         questions_show_obj[index_q].en
     }</strong> có nghĩa là gì?</p>`;
 
-    show_answers(index_q);
+    show_answers();
 
     // hide loader
     setTimeout(function () {
@@ -52,8 +56,8 @@ function show_question(index_q) {
 }
 
 // Display the answer choices for the current question
-function show_answers(index_q) {
-    answer_text = get_answers(index_q);
+function show_answers() {
+    answer_text = get_answers();
 
     for (let i = 0; i < 4; i++) {
         answers[i].querySelector(".card-text").innerText = answer_text[i];
@@ -61,25 +65,28 @@ function show_answers(index_q) {
 }
 
 // Get the answer choices for the current question by selecting a correct answer and three incorrect ones and shuffling them
-function get_answers(index_q) {
-    answer = [];
-    // Choose three random incorrect answers and add them to the answer array
-    questionAnswers_random = choose_random_obj(questions_all_obj, 3);
-    questionAnswers_random.forEach((qa) => {
-        if (qa.vi == get_correct_answer()) {
-            return get_answers(index_q);
-        } else {
-            answer.push(qa.vi);
-        }
-    });
+function get_answers() {
+    a = [];
+    // Thêm 3 đáp án sai từ list answer
+    a = choose_random_elements(list_answer, 3, get_correct_answer());
     // Add the correct answer to the answer array
-    answer.push(get_correct_answer());
+    a.push(get_correct_answer());
     // Shuffle the answer array
-    answer = shuffleArray(answer);
+    a = shuffleArray(a);
 
-    return answer;
+    return a;
 }
 
 function get_correct_answer() {
     return questions_show_obj[question_current].vi;
+}
+
+function get_list_answer(list_qa) {
+    answer = [];
+
+    list_qa.forEach((qa) => {
+        answer.push(qa.vi);
+    });
+
+    return answer;
 }
