@@ -15,7 +15,17 @@
         <link rel="stylesheet" href="public/css/index.css" />
     </head>
     <body>
-        <div class="container">
+        <div id="start-screen" class="container flex-column">
+            <img
+                src="https://dangtus.github.io/store/png/avata.png"
+                alt="avata"
+                class="avata"
+            />
+            <h1 class="title-screen">học từ vựng</h1>
+            <button onclick="swapToQuizMode()">bắt đầu</button>
+        </div>
+
+        <div id="quiz-screen" class="container hidden">
             <header>
                 <i class="close-icon bi bi-x-lg"></i>
                 <div class="progress-bar">
@@ -60,25 +70,46 @@
                     <button id="next-button" class="disabled"></button>
                 </div>
             </div>
+
+            <div id="audio" class="hidden">
+                <audio
+                    id="audio-correct"
+                    src="public/mp3/duolingo-correct.mp3"
+                ></audio>
+                <audio
+                    id="audio-wrong"
+                    src="public/mp3/duolingo-wrong.mp3"
+                ></audio>
+            </div>
+        </div>
+
+        <div id="retry-screen" class="container flex-column hidden">
+            <img
+                src="https://dangtus.github.io/store/png/avata.png"
+                alt="avata"
+                class="avata"
+            />
+            <h2 class="title-screen">hãy cùng ôn lại những câu sai nhé!</h2>
+            <button onclick="swapToRetryMode()">tiếp tục</button>
+        </div>
+
+        <div id="result-screen" class="container flex-column hidden">
+            <img
+                src="https://dangtus.github.io/store/png/avata.png"
+                alt="avata"
+                class="avata"
+            />
+            <h2 class="title-screen">chúc mừng bạn đã hoàn thành bài học!</h2>
+            <button onclick="location.href='.'">tiếp tục</button>
         </div>
 
         <div class="load-wrapper hidden">
             <div class="load">
-                <div class="bi-loader">
+                <div class="bi-loader flex-column">
                     <i class="bi bi-arrow-repeat"></i>
+                    <p class="load-text">Đang tải...</p>
                 </div>
             </div>
-        </div>
-
-        <div id="audio" class="hidden">
-            <audio
-                id="audio_correct"
-                src="public/mp3s/duolingo-correct.mp3"
-            ></audio>
-            <audio
-                id="audio_wrong"
-                src="public/mp3s/duolingo-wrong.mp3"
-            ></audio>
         </div>
 
         <!-- Thư viện đọc file csv -->
@@ -91,7 +122,7 @@
 
         <!-- Link js local -->
         <script src="public/js/module.js"></script>
-        <script src="public/js/question.js"></script>
+        <script src="public/js/quiz.js"></script>
         <script src="public/js/index.js"></script>
     </body>
 </html>
