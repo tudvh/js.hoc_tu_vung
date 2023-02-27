@@ -20,6 +20,18 @@ const audioWrong = document.getElementById("audio-wrong"); // Phần tử âm th
 const loadElement = document.querySelector(".load-wrapper"); // Phần tử hiển thị khi đang tải
 var selectedAnswer = null; // Biến chứa phần tử trả lời đã chọn
 
+// Các biến phục vụ việc chuyển đổi văn bản thành giọng nói
+let voiceSpeech;
+
+window.onload = function () {
+    // Chuẩn bị giọng đọc khi vừa load trang
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = loadVoices;
+    } else {
+        setTimeout(loadVoices, 100);
+    }
+};
+
 // Chuyển sang chế độ bắt đầu trả lời câu hỏi
 function swapToQuizMode() {
     showLoading();
@@ -74,13 +86,22 @@ function showResultScreen() {
 // Thêm sự kiện khi chọn câu trả lời
 answerElements.forEach((aElement) => {
     aElement.addEventListener("click", () => {
-        answerElements.forEach((a) => a.classList.remove("selected"));
-        // thêm class selected cho câu trả lời được chọn
-        aElement.classList.add("selected");
-        // lưu lại nội dung của câu trả lời được chọn
-        selectedAnswer = aElement.querySelector(".card-text").innerText;
-        // Bật nút submit
-        submitButton.classList.remove("disabled");
+        if (!speechSynthesis.speaking) {
+            // lưu lại nội dung của câu trả lời được chọn
+            selectedAnswer = aElement.querySelector(".card-text").innerText;
+
+            // đọc nội dung câu trả lời được chọn
+            textToSpeech(selectedAnswer);
+
+            // xóa class selected cho tất cả các câu trả lời
+            answerElements.forEach((a) => a.classList.remove("selected"));
+
+            // thêm class selected cho câu trả lời được chọn
+            aElement.classList.add("selected");
+
+            // Bật nút submit
+            submitButton.classList.remove("disabled");
+        }
     });
 
     aElement.addEventListener("mousedown", () => {
@@ -236,4 +257,19 @@ function showLoading() {
 
 function hideLoading() {
     loadElement.classList.add("hidden");
+}
+
+function loadVoices() {
+    for (let voice of speechSynthesis.getVoices()) {
+        if (voice.name === "Google UK English Female") {
+            voiceSpeech = voice;
+            break;
+        }
+    }
+}
+
+function textToSpeech(text) {
+    let utterance = new SpeechSynthesisUtterance(text);
+    utterance.voice = voiceSpeech;
+    speechSynthesis.speak(utterance);
 }

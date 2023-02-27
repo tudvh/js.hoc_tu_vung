@@ -92,9 +92,9 @@ function getCurrentQuestion() {
 // Lấy phần header của câu hỏi hiện tại
 function getQuestionHeader() {
     if (currentLearningMode == listQuiz) {
-        return `Câu ${currentQuestion + 1}`;
+        return `Câu ${currentQuestion + 1}: `;
     } else if (currentLearningMode == listWrongQuiz) {
-        return "Câu sai trước đây";
+        return "Câu sai trước đây: ";
     } else {
         return null;
     }
