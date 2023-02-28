@@ -259,7 +259,10 @@ function hideLoading() {
 
 function loadVoices() {
     for (let voice of speechSynthesis.getVoices()) {
-        if (voice.name === "Google UK English Female") {
+        if (
+            voice.name === "Google UK English Female" ||
+            voice.lang === "en_GB"
+        ) {
             voiceSpeech = voice;
             break;
         }
@@ -274,5 +277,8 @@ function textToSpeech(text) {
     let utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = voiceSpeech;
     utterance.lang = voiceSpeech.lang;
+    // utterance.rate = 0.9;
     speechSynthesis.speak(utterance);
+
+    console.log(utterance);
 }
