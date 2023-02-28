@@ -5,7 +5,7 @@ let currentLearningMode = null;
 let listAnswer = null;
 let currentQuestion = 0;
 let currentWrongQuestion = 0;
-let maxQuestion = 10;
+let maxQuestion = 15;
 
 // Lấy đồng bộ danh sách các cặp câu hỏi-trả lời từ một tệp CSV và phân tích cú pháp nó sử dụng thư viện Papa.parse
 async function getListQuiz() {

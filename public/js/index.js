@@ -86,22 +86,20 @@ function showResultScreen() {
 // Thêm sự kiện khi chọn câu trả lời
 answerElements.forEach((aElement) => {
     aElement.addEventListener("click", () => {
-        if (!speechSynthesis.speaking) {
-            // lưu lại nội dung của câu trả lời được chọn
-            selectedAnswer = aElement.querySelector(".card-text").innerText;
+        // lưu lại nội dung của câu trả lời được chọn
+        selectedAnswer = aElement.querySelector(".card-text").innerText;
 
-            // đọc nội dung câu trả lời được chọn
-            textToSpeech(selectedAnswer);
+        // đọc nội dung câu trả lời được chọn
+        textToSpeech(selectedAnswer);
 
-            // xóa class selected cho tất cả các câu trả lời
-            answerElements.forEach((a) => a.classList.remove("selected"));
+        // xóa class selected cho tất cả các câu trả lời
+        answerElements.forEach((a) => a.classList.remove("selected"));
 
-            // thêm class selected cho câu trả lời được chọn
-            aElement.classList.add("selected");
+        // thêm class selected cho câu trả lời được chọn
+        aElement.classList.add("selected");
 
-            // Bật nút submit
-            submitButton.classList.remove("disabled");
-        }
+        // Bật nút submit
+        submitButton.classList.remove("disabled");
     });
 
     aElement.addEventListener("mousedown", () => {
@@ -269,7 +267,12 @@ function loadVoices() {
 }
 
 function textToSpeech(text) {
+    // dừng đọc (nếu có)
+    speechSynthesis.cancel();
+
+    // đọc nội dung
     let utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = voiceSpeech;
+    utterance.lang = voiceSpeech.lang;
     speechSynthesis.speak(utterance);
 }
