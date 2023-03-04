@@ -104,51 +104,94 @@ id,en,vi
 103,bridge,cây cầu
 104,stay up late,thức khuya
 105,sleep in,ngủ nướng
-106,play video games,Chơi trò chơi điện tử
-107,surf the internet,lướt Internet
-108,do exercise,tập thể dục
-109,eat healthy food,ăn đồ ăn lành mạnh
-110,eat junk food,ăn vặt
-111,shop online,Mua sắm trực tuyến
-112,take pictures,chụp ảnh
-113,smoke,hút thuốc
-114,swear,chửi thề
-115,skip meals,bỏ bữa
-116,drink alcohol,uống rượu
-117,gossip,ngồi lê đôi mách
-118,bite nails,cắn móng tay
-119,pick nose,ngoáy mũi
-120,tell lies,nói dối
-121,play sports,chơi thể thao
-122,hand out with friends,ra ngoài với bạn bè
-123,skip classes,bỏ học
-124,read books,đọc sách
-125,overspend,chi tiêu quá mức
-126,be messy,bừa bộn
-127,gamble,Đánh bạc
-128,climb,leo trèo
-129,fall down,ngã
-130,awful,tồi tệ
-131,angry,tức giận
-132,library,thư viện
-133,cafeteria,căn tin
-134,meeting hall,hội trường
-135,classroom,lớp học
-136,sports center,Trung tâm thể thao
-137,dormitory,ký túc xá
-138,schedule,lịch trình
-139,tuition fees,học phí
-140,campus,khuôn viên đại học
-141,social life,Đời sống xã hội
-142,do project,làm dự án
-143,attend class,tham dự lớp học
-144,take part in club,tham gia câu lạc bộ
-145,do a part-time job,làm việc bán thời gian
-146,do survey,làm khảo sát
-147,do volunteer,làm tình nguyện
-148,develop the skills,Phát triển các kỹ năng
-149,build your confidence,xây dựng sự tự tin của bạn
-150,take experience,Có kinh nghiệm
-151,reunion party,tiệc đoàn tụ
-152,the best opportunity,cơ hội tốt nhất
-153,long-lasting friendship,tình bạn lâu dài
+106,surf the internet,lướt Internet
+107,do exercise,tập thể dục
+108,healthy food,Thức ăn lành mạnh
+109,shop online,Mua sắm trực tuyến
+110,take pictures,chụp ảnh
+111,smoke,hút thuốc
+112,swear,chửi thề
+113,skip meals,bỏ bữa
+114,drink alcohol,uống rượu
+115,gossip,ngồi lê đôi mách
+116,bite nails,cắn móng tay
+117,pick nose,ngoáy mũi
+118,tell lies,nói dối
+119,play sports,chơi thể thao
+120,hand out with friends,ra ngoài với bạn bè
+121,skip classes,bỏ học
+122,read books,đọc sách
+123,overspend,chi tiêu quá mức
+124,be messy,bừa bộn
+125,gamble,Đánh bạc
+126,climb,leo trèo
+127,fall down,ngã
+128,awful,tồi tệ
+129,angry,tức giận
+130,library,thư viện
+131,cafeteria,căn tin
+132,meeting hall,hội trường
+133,classroom,lớp học
+134,sports center,Trung tâm thể thao
+135,dormitory,ký túc xá
+136,schedule,lịch trình
+137,tuition fees,học phí
+138,campus,khuôn viên đại học
+139,social life,Đời sống xã hội
+140,do project,làm dự án
+141,attend class,tham dự lớp học
+142,take part in club,tham gia câu lạc bộ
+143,do a part-time job,làm việc bán thời gian
+144,do survey,làm khảo sát
+145,do volunteer,Làm tình nguyện
+146,develop the skills,Phát triển các kỹ năng
+147,confidence,sự tự tin
+148,take experience,Có kinh nghiệm
+149,reunion party,tiệc đoàn tụ
+150,opportunity,cơ hội
+151,long-lasting friendship,tình bạn lâu dài
+152,decided,quyết định
+153,aspirations,Khát vọng
+154,scope,phạm vi
+155,complete,hoàn thành
+156,funding,kinh phí
+157,accept,chấp nhận
+158,avoid,tránh xa
+159,bumpy,gập ghềnh
+160,scary,đáng sợ
+161,terrible,kinh khủng
+162,embarrassed,lúng túng
+163,surprised,ngạc nhiên
+164,rainy,mưa
+165,cloudy,có mây
+166,windy,có gió
+167,sunny,nắng
+168,flight,chuyến bay
+169,childhood,thời thơ ấu
+170,hide and seek,trốn tìm
+171,experience,kinh nghiệm
+172,rice field,ruộng lúa
+173,rural area,khu vực nông thôn
+174,mature,trưởng thành
+175,that sounds great!,nghe có vẻ tuyệt vời!
+176,vividly,một cách sinh động
+177,look back,nhìn lại
+178,pack,đóng gói
+179,towel,cái khăn lau
+180,juice,nước ép
+181,fruit,trái cây
+182,sunscreen,kem chống nắng
+183,air mattress,nệm hơi
+184,weather forecast,dự báo thời tiết
+185,key,chìa khóa
+186,book,đặt (vé)
+187,swimming pool,Hồ bơi
+188,smoking area,khu vực hút thuốc
+189,laundry service,dịch vụ giặt ủi
+190,suitcase,va li
+191,medical supplies,vật tư y tế
+192,hygiene items,đồ dùng vệ sinh cá nhân
+193,gift shop,cửa hàng quà tặng
+194,car park,bãi đỗ xe
+195,motorbike rental,cho thuê xe máy
+196,electronic products,sản phẩm điện tử

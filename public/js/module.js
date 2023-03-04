@@ -1,47 +1,38 @@
-// Viết hoa chữ cái đầu của mỗi từ trong bộ câu hỏi
-function capitalizeFirstLetterQA(allQA) {
-    allQA.forEach((qa) => {
-        qa.en = qa.en.charAt(0).toUpperCase() + qa.en.slice(1);
-        qa.vi = qa.vi.charAt(0).toUpperCase() + qa.vi.slice(1);
-    });
-
-    return allQA;
+function capitalizeFirstLetter(text) {
+    // Chuyển ký tự đầu tiên thành chữ in hoa và nối vào phần còn lại của chuỗi
+    return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-// Chọn ngẫu nhiên một số đối tượng từ một mảng đối tượng
-function chooseRandomObj(obj, count) {
-    const keys = Object.keys(obj);
-    const randomKeys = keys.sort(() => Math.random() - 0.5).slice(0, count);
-    const randomValues = randomKeys.map((key) => obj[key]);
-    return randomValues;
+function getRandomElement(array) {
+    // Tạo một chỉ số ngẫu nhiên và trả về phần tử tương ứng trong mảng
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
 }
 
-// Chọn các phần tử ngẫu nhiên từ một mảng
-function chooseRandomArr(arr, count, excludedElement) {
-    const chosenIndexes = new Set();
-    while (chosenIndexes.size < count) {
-        let index = Math.floor(Math.random() * arr.length);
-        if (arr[index] === excludedElement) {
-            continue;
-        }
-        chosenIndexes.add(index);
+function getRandomElements(array, count, excludedElements=[]) {
+    // Lọc các phần tử trong mảng không nằm trong danh sách bị loại trừ
+    const filteredArray = array.filter(
+        (element) => !excludedElements.includes(element)
+    );
+
+    // Tạo một mảng mới chứa các phần tử ngẫu nhiên được chọn từ mảng đã lọc
+    const randomElements = [];
+
+    // Lặp lại việc chọn phần tử ngẫu nhiên cho đến khi đạt được số lượng mong muốn hoặc hết phần tử trong mảng đã lọc
+    while (randomElements.length < count && filteredArray.length > 0) {
+        const randomElement = getRandomElement(filteredArray);
+        randomElements.push(randomElement);
+
+        // Xóa phần tử đã chọn khỏi mảng đã lọc để tránh chọn trùng lặp
+        const index = filteredArray.indexOf(randomElement);
+        filteredArray.splice(index, 1);
     }
-    return Array.from(chosenIndexes).map((index) => arr[index]);
+
+    return randomElements;
 }
 
-// Xáo trộn một mảng ngẫu nhiên
-function shuffleArr(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+function shuffleArray(array) {
+    // Sắp xếp mảng theo thứ tự ngẫu nhiên bằng cách so sánh hai số ngẫu nhiên
+    array.sort(() => Math.random() - 0.5);
     return array;
-}
-
-// Xáo trộn một đối tượng ngẫu nhiên
-function shuffleObj(obj) {
-    const shuffledKeys = Object.keys(obj).sort(() => Math.random() - 0.5);
-    const shuffledObject = {};
-    shuffledKeys.forEach((key) => (shuffledObject[key] = obj[key]));
-    return shuffledObject;
 }

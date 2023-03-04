@@ -22,7 +22,7 @@
                 class="avata"
             />
             <h1 class="title-screen">học từ vựng</h1>
-            <button onclick="swapToQuizMode()">bắt đầu</button>
+            <button onclick="swapToLearningMode()">bắt đầu</button>
         </div>
 
         <div id="quiz-screen" class="container hidden">
@@ -70,17 +70,6 @@
                     <button id="next-button" class="disabled"></button>
                 </div>
             </div>
-
-            <div id="audio" class="hidden">
-                <audio
-                    id="audio-correct"
-                    src="public/mp3/duolingo-correct.mp3"
-                ></audio>
-                <audio
-                    id="audio-wrong"
-                    src="public/mp3/duolingo-wrong.mp3"
-                ></audio>
-            </div>
         </div>
 
         <div id="retry-screen" class="container flex-column hidden">
@@ -103,6 +92,14 @@
             <button onclick="location.href='.'">tiếp tục</button>
         </div>
 
+        <div id="audio" class="hidden">
+            <audio
+                id="audio-correct"
+                src="public/mp3/duolingo-correct.mp3"
+            ></audio>
+            <audio id="audio-wrong" src="public/mp3/duolingo-wrong.mp3"></audio>
+        </div>
+
         <div class="load-wrapper hidden">
             <div class="load">
                 <div class="bi-loader flex-column">
@@ -122,6 +119,7 @@
 
         <!-- Link js local -->
         <script src="public/js/module.js"></script>
+        <script src="public/js/ListQuiz.js"></script>
         <script src="public/js/quiz.js"></script>
         <script src="public/js/index.js"></script>
     </body>
