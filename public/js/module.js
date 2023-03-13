@@ -1,15 +1,15 @@
+// Hàm này được sử dụng để viết hoa chữ cái đầu tiên của một chuỗi
 function capitalizeFirstLetter(text) {
-    // Chuyển ký tự đầu tiên thành chữ in hoa và nối vào phần còn lại của chuỗi
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+// Hàm này được sử dụng để lấy ngẫu nhiên một phần tử trong một mảng
 function getRandomElement(array) {
-    // Tạo một chỉ số ngẫu nhiên và trả về phần tử tương ứng trong mảng
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 }
 
-function getRandomElements(array, count, excludedElements=[]) {
+function getRandomElements(array, count, excludedElements = []) {
     // Lọc các phần tử trong mảng không nằm trong danh sách bị loại trừ
     const filteredArray = array.filter(
         (element) => !excludedElements.includes(element)
@@ -35,4 +35,31 @@ function shuffleArray(array) {
     // Sắp xếp mảng theo thứ tự ngẫu nhiên bằng cách so sánh hai số ngẫu nhiên
     array.sort(() => Math.random() - 0.5);
     return array;
+}
+
+// View in fullscreen
+function openFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        // Safari
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        // IE11
+        elem.msRequestFullscreen();
+    }
+}
+
+// Close fullscreen
+function closeFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        // Safari
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        // IE11
+        document.msExitFullscreen();
+    }
 }

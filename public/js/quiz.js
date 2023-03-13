@@ -1,4 +1,4 @@
-const maxQuestion = 5;
+const maxQuestion = 3;
 let wrongAnswersCount;
 
 // Lấy toàn bộ bộ câu hỏi từ file CSV và trả về Promise
@@ -49,7 +49,7 @@ function getLeastUsedQuizs(allQuiz, numQuiz) {
 
         return leastUsedQuiz;
     } else {
-        console.log("khong co cau hoi");
+        console.log("Danh sách những câu hỏi mà bạn đã trả lời đang trống");
         return allQuiz;
     }
 }

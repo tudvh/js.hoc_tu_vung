@@ -4,6 +4,7 @@ const quizScreen = document.getElementById("quiz-screen");
 const retryScreen = document.getElementById("retry-screen");
 const resultScreen = document.getElementById("result-screen");
 
+const progressBarElement = document.querySelector(".progress-bar");
 const questionElement = document.getElementById("question");
 const answerElements = document.querySelectorAll(".answers .card");
 const buttons = document.querySelectorAll("button");
@@ -29,6 +30,17 @@ let answeredQuizs = null;
 let voiceSpeech;
 const utterance = new SpeechSynthesisUtterance();
 const synth = window.speechSynthesis;
+
+function setProgressBar() {
+    let currentProgress = learningQuiz.current + wrongQuiz.current + 1;
+    let totalQuiz = learningQuiz.getLength() + wrongQuiz.getLength();
+    let percent = (currentProgress / totalQuiz) * 100;
+
+    const completedElement = progressBarElement.querySelector(".completed");
+    completedElement.style.width = `${percent}%`;
+
+    console.log(`${percent}%`);
+}
 
 // Thay đổi giao diện hiển thị kết quả đúng
 function displayCorrectResult() {
@@ -117,13 +129,16 @@ function setDataSesstion() {
     answeredQuizs = learningQuiz.addQuizsToSession(answeredQuizs);
     // Thêm tất cả các câu hỏi sai vào phiên làm việc của người dùng.
     answeredQuizs = wrongQuiz.addWrongQuizsToSession(answeredQuizs);
-    // Lưu trữ phiên làm việc của người dùng trên trình duyệt bằng cách sử dụng phương thức setItem() của localStorage.    
+    // Lưu trữ phiên làm việc của người dùng trên trình duyệt bằng cách sử dụng phương thức setItem() của localStorage.
     localStorage.setItem("answeredQuizs", JSON.stringify(answeredQuizs));
 }
 
 // Chuyển đổi văn bản thành giọng nói sử dụng Text-to-Speech API
 function textToSpeech(text) {
+    synth.cancel();
+
     utterance.text = text;
+
     synth.speak(utterance);
 }
 
@@ -191,6 +206,8 @@ function swapToLearningMode() {
     // Hiển thị loading
     showLoading();
 
+    loadEnGBVoice();
+
     // Lấy dữ liệu tất cả các câu hỏi và load giọng Tiếng Anh
     getAllQuiz()
         .then((allQuiz) => {
@@ -218,8 +235,9 @@ function swapToLearningMode() {
             // Hiển thị màn hình quiz
             showQuizScreen();
 
-            // Hiển thị các câu hỏi lên màn hình
-            setQuizElement();
+            checkMode();
+
+            openFullscreen();
         })
         .catch((error) => {
             // Hiển thị lỗi nếu có
@@ -312,10 +330,7 @@ function checkMode() {
 }
 
 window.onload = function () {
-    showLoading();
-    loadEnGBVoice().then(() => {
-        hideLoading();
-    });
+    loadEnGBVoice();
     loadAudio();
 };
 
@@ -324,9 +339,6 @@ answerElements.forEach((aElement) => {
     aElement.addEventListener("click", () => {
         // lưu lại nội dung của câu trả lời được chọn
         selectedAnswer = aElement.querySelector(".card-text").innerText;
-
-        // tắt giọng đọc trước đó nếu có
-        synth.cancel();
 
         // đọc nội dung câu trả lời được chọn
         textToSpeech(selectedAnswer);
@@ -402,13 +414,16 @@ submitButton.addEventListener("click", function (event) {
         displayWrongResult();
         playWrongAudio();
 
+        textToSpeech(currentQuiz.getCorrectAnswer());
+
         // Thêm vào câu sai
         wrongQuiz.addQuiz(currentQuiz.getCurrentQuiz());
         if (currentQuiz == wrongQuiz) {
             currentQuiz = wrongQuiz;
         }
-        console.log(wrongQuiz);
     }
+
+    setProgressBar();
 
     // Hiển thị kết quả
     resultOverlayElement.classList.remove("hidden");
