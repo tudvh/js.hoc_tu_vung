@@ -1,34 +1,34 @@
-// Chọn các phần tử screen
-const startScreenElement = document.getElementById("start-screen"); // Phần tử màn hình bắt đầu
-const quizScreen = document.getElementById("quiz-screen"); // Phần tử màn hình trả lời câu hỏi
-const retryScreen = document.getElementById("retry-screen"); // Phần tử màn hình thử lại
-const resultScreen = document.getElementById("result-screen"); // Phần tử màn hình kết quả
+// Khai báo các biến lưu trữ các phần tử trên trang web
+const startScreenElement = document.getElementById("start-screen");
+const quizScreen = document.getElementById("quiz-screen");
+const retryScreen = document.getElementById("retry-screen");
+const resultScreen = document.getElementById("result-screen");
 
-// Chọn các phần tử trong màn hình trả lời câu hỏi
-const questionElement = document.getElementById("question"); // Phần tử hiển thị câu hỏi
-const answerElements = document.querySelectorAll(".answers .card"); // Mảng các phần tử hiển thị câu trả lời
-const buttons = document.querySelectorAll("button"); // Mảng các nút bấm
-const submitButton = document.getElementById("submit-button"); // Nút bấm để nộp bài
-const resultOverlayElement = document.getElementById("result-overlay"); // Phần tử lớp phủ kết quả
-const resultModalElement = document.getElementById("result-modal"); // Phần tử hiển thị kết quả
-const resultTextElement = document.getElementById("result-text"); // Phần tử hiển thị văn bản kết quả
-const resultMessageElement = document.getElementById("result-message"); // Phần tử hiển thị thông báo kết quả
-const resultIconElement = document.getElementById("result-icon"); // Phần tử hiển thị biểu tượng kết quả
-const nextButton = document.getElementById("next-button"); // Nút bấm để chuyển sang câu hỏi tiếp theo
-const audioCorrect = document.getElementById("audio-correct"); // Phần tử âm thanh khi trả lời đúng
-const audioWrong = document.getElementById("audio-wrong"); // Phần tử âm thanh khi trả lời sai
-const loadElement = document.querySelector(".load-wrapper"); // Phần tử hiển thị khi đang tải
+const questionElement = document.getElementById("question");
+const answerElements = document.querySelectorAll(".answers .card");
+const buttons = document.querySelectorAll("button");
+const submitButton = document.getElementById("submit-button");
+const resultOverlayElement = document.getElementById("result-overlay");
+const resultModalElement = document.getElementById("result-modal");
+const resultTextElement = document.getElementById("result-text");
+const resultMessageElement = document.getElementById("result-message");
+const resultIconElement = document.getElementById("result-icon");
+const nextButton = document.getElementById("next-button");
+const audioCorrect = document.getElementById("audio-correct");
+const audioWrong = document.getElementById("audio-wrong");
+const loadElement = document.querySelector(".load-wrapper");
 
-// Biến lưu trữ bộ câu hỏi
-let learningQuiz; // Bộ câu hỏi
-let wrongQuiz; // Những câu hỏi sai
-let currentQuiz; // Bộ câu đang học
-var selectedAnswer = null; // Câu trả lời được chọn
+// Khởi tạo các biến lưu trữ trạng thái của bài học và các câu hỏi
+let learningQuiz;
+let wrongQuiz;
+let currentQuiz;
+let selectedAnswer = null;
+let answeredQuizs = null;
 
-// Các biến phục vụ việc chuyển đổi văn bản thành giọng nói
-let voiceSpeech; // Giọng nói hiện tại
-const utterance = new SpeechSynthesisUtterance(); // Đoạn văn bản cần chuyển thành giọng nói
-const synth = window.speechSynthesis; // Đối tượng synth cho phép chuyển đổi văn bản thành giọng nói
+// Khởi tạo các biến lưu trữ trạng thái của giọng nói và các phát âm
+let voiceSpeech;
+const utterance = new SpeechSynthesisUtterance();
+const synth = window.speechSynthesis;
 
 // Thay đổi giao diện hiển thị kết quả đúng
 function displayCorrectResult() {
@@ -106,6 +106,21 @@ function hideLoading() {
     loadElement.classList.add("hidden");
 }
 
+// Hàm này được sử dụng để chuyển hướng người dùng về trang chủ.
+function redirectToHome() {
+    location.href = ".";
+}
+
+// Hàm này được sử dụng để lưu trữ các câu hỏi đã trả lời và câu hỏi sai vào phiên làm việc của người dùng.
+function setDataSesstion() {
+    // Thêm tất cả các câu hỏi đã trả lời vào phiên làm việc của người dùng.
+    answeredQuizs = learningQuiz.addQuizsToSession(answeredQuizs);
+    // Thêm tất cả các câu hỏi sai vào phiên làm việc của người dùng.
+    answeredQuizs = wrongQuiz.addWrongQuizsToSession(answeredQuizs);
+    // Lưu trữ phiên làm việc của người dùng trên trình duyệt bằng cách sử dụng phương thức setItem() của localStorage.    
+    localStorage.setItem("answeredQuizs", JSON.stringify(answeredQuizs));
+}
+
 // Chuyển đổi văn bản thành giọng nói sử dụng Text-to-Speech API
 function textToSpeech(text) {
     utterance.text = text;
@@ -177,17 +192,19 @@ function swapToLearningMode() {
     showLoading();
 
     // Lấy dữ liệu tất cả các câu hỏi và load giọng Tiếng Anh
-    Promise.all([getAllQuiz(), loadEnGBVoice()])
-        .then(([allQuiz, _]) => {
+    getAllQuiz()
+        .then((allQuiz) => {
             // Chuyển đổi chữ cái đầu tiên của tất cả các câu hỏi sang chữ in hoa
             allQuiz = capitalizeFirstLetterAllQuiz(allQuiz);
+
+            let leastUsedQuiz = getLeastUsedQuizs(allQuiz, 30);
 
             // Lấy danh sách tất cả các đáp án
             allAnswers = getAllAnswers(allQuiz);
 
             // Tạo ra một bài quiz mới cho chế độ học
             learningQuiz = new ListQuiz(
-                getRandomElements(allQuiz, maxQuestion),
+                getRandomElements(leastUsedQuiz, maxQuestion),
                 "learning",
                 allAnswers
             );
@@ -255,43 +272,50 @@ function showResultScreen() {
     }, 1000);
 }
 
-// Kiểm tra chế độ làm bài tập trắc nghiệm của người dùng và quyết định hành động tiếp theo.
-function checkMode() {
-    // Nếu đang ở chế độ học
-    if (currentQuiz == learningQuiz) {
-        // Nếu người dùng đã hoàn thành chế độ học
-        if (currentQuiz.current >= currentQuiz.getLength()) {
-            // Nếu người dùng có câu trả lời sai trong bài tập
-            if (wrongQuiz.getLength()) {
-                // Hiển thị màn hình thử lại
-                showRetryScreen();
-            } else {
-                // Hiển thị màn hình kết quả
-                showResultScreen();
-            }
-        } else {
-            // Thiết lập phần tử câu hỏi mới
-            setQuizElement();
-        }
+// Hàm kiểm tra khi hoàn thành bài học
+function checkLearningQuizCompletion() {
+    // Lưu dữ liệu phiên cho người dùng
+    setDataSesstion();
+    // Nếu số câu hỏi trả lời sai lớn hơn 0 thì hiển thị màn hình thử lại
+    if (wrongQuiz.getLength()) {
+        return showRetryScreen();
+    } else {
+        // Ngược lại, hiển thị màn hình kết quả
+        return showResultScreen();
     }
-    // Nếu đang ở chế độ trả lời những câu hỏi sai
-    else if (currentQuiz == wrongQuiz) {
-        // Nếu người dùng đã hoàn thành số lần trả lời sai tối đa
-        if (currentQuiz.current >= wrongAnswersCount * 2) {
-            // Chuyển hướng trở lại trang chủ
-            location.href = ".";
-        } else if (currentQuiz.current >= currentQuiz.getLength()) {
-            // Hiển thị màn hình kết quả
-            showResultScreen();
+}
+
+// Hàm kiểm tra chế độ hiện tại
+function checkMode() {
+    // Nếu đang ở chế độ học tập
+    if (currentQuiz == learningQuiz) {
+        // Nếu đã trả lời hết tất cả câu hỏi trong bài học
+        if (currentQuiz.current >= currentQuiz.getLength()) {
+            return checkLearningQuizCompletion();
         } else {
-            // Thiết lập phần tử bài tập mới
-            setQuizElement();
+            // Ngược lại, thiết lập phần tử của câu hỏi
+            return setQuizElement();
+        }
+    } else if (currentQuiz == wrongQuiz) {
+        // Nếu đang ở chế độ trả lời những câu hỏi sai
+        // Nếu đã trả lời sai quá nhiều => về lại trang chủ
+        if (currentQuiz.current >= wrongAnswersCount * 2) {
+            return redirectToHome();
+        } else if (currentQuiz.current >= currentQuiz.getLength()) {
+            // Nếu đã trả lời hết tất cả câu hỏi sai => hiển thị màn hình kết quả
+            return showResultScreen();
+        } else {
+            // Ngược lại, thiết lập phần tử của câu hỏi
+            return setQuizElement();
         }
     }
 }
 
 window.onload = function () {
-    loadEnGBVoice();
+    showLoading();
+    loadEnGBVoice().then(() => {
+        hideLoading();
+    });
     loadAudio();
 };
 

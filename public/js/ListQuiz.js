@@ -65,4 +65,40 @@ class ListQuiz {
     getCorrectAnswer() {
         return this.listQuiz[this.current].en;
     }
+
+    addQuizsToSession(sessionQuizs) {
+        this.listQuiz.forEach((quiz) => {
+            let index;
+
+            if (sessionQuizs) {
+                index = sessionQuizs.findIndex(
+                    (ssQuiz) => ssQuiz.id === quiz.id
+                );
+            } else {
+                index = -1;
+                sessionQuizs = [];
+            }
+
+            if (index != -1) {
+                sessionQuizs[index].count += 2;
+            } else {
+                sessionQuizs.push({ id: quiz.id, count: 2 });
+            }
+        });
+
+        return sessionQuizs;
+    }
+
+    addWrongQuizsToSession(sessionQuizs) {
+        this.listQuiz.forEach((quiz) => {
+            const index = sessionQuizs.findIndex(
+                (ssQuiz) => ssQuiz.id === quiz.id
+            );
+            if (index != -1) {
+                sessionQuizs[index].count -= 1;
+            }
+        });
+
+        return sessionQuizs;
+    }
 }
