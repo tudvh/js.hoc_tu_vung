@@ -1,4 +1,4 @@
-const maxQuestion = 3;
+const maxQuestion = 15;
 let wrongAnswersCount;
 
 // Lấy toàn bộ bộ câu hỏi từ file CSV và trả về Promise
