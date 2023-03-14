@@ -1,69 +1,69 @@
 const maxQuestion = 15;
 let wrongAnswersCount;
 
-// Lấy toàn bộ bộ câu hỏi từ file CSV và trả về Promise
+// Lấy tất cả các câu hỏi từ file csv bằng cách sử dụng thư viện PapaParse để phân tích dữ liệu.
 function getAllQuiz() {
-    return new Promise((resolve, reject) => {
+    // Sử dụng fetch để lấy nội dung của file csv.
+    return (
         fetch("public/csv/vocabulary.csv")
-            .then((response) => {
-                return response.text();
-            })
-            .then((data) => {
+            // Sử dụng phương thức text để đọc dữ liệu của response.
+            .then((response) => response.text())
+            // Sử dụng Papa.parse để phân tích dữ liệu được đọc từ response.
+            .then((data) =>
                 Papa.parse(data, {
                     header: true,
                     delimiter: ",",
                     skipEmptyLines: true,
-                    complete: (results) => {
-                        resolve(results.data);
-                    },
-                });
-            })
+                })
+            )
+            // Trả về dữ liệu đã được phân tích bởi Papa.parse.
+            .then((results) => results.data)
+            // Nếu có lỗi, ném ra ngoại lệ để báo hiệu lỗi đến lớp gọi.
             .catch((error) => {
-                reject(error);
-            });
-    });
+                throw error;
+            })
+    );
 }
 
+// Lấy danh sách các câu hỏi ít được sử dụng nhất.
 function getLeastUsedQuizs(allQuiz, numQuiz) {
-    answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
-    console.log(answeredQuizs)
+    // Lấy danh sách các câu hỏi đã được trả lời từ local storage.
+    const answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
+    console.log(answeredQuizs);
 
-    if (answeredQuizs) {
-        let newQuiz = allQuiz.map((quiz) => {
-            const answeredQuiz = answeredQuizs.find((a) => a.id === quiz.id);
-
-            if (answeredQuiz) {
-                quiz.count = parseInt(answeredQuiz.count) + 1;
-            } else {
-                quiz.count = 0;
-            }
-
-            return quiz;
-        });
-
-        let sortedQuiz = newQuiz.sort((a, b) => a.count - b.count);
-
-        let leastUsedQuiz = sortedQuiz.slice(0, numQuiz);
-
-        console.log(leastUsedQuiz);
-
-        return leastUsedQuiz;
-    } else {
+    // Nếu danh sách câu hỏi đã được trả lời không tồn tại, trả về danh sách tất cả câu hỏi.
+    if (!answeredQuizs) {
         console.log("Danh sách những câu hỏi mà bạn đã trả lời đang trống");
         return allQuiz;
     }
-}
 
-// Viết hoa chữ cái đầu cho các từ trong bộ câu hỏi
-function capitalizeFirstLetterAllQuiz(allQuiz) {
-    allQuiz.forEach((quiz) => {
-        quiz.en = capitalizeFirstLetter(quiz.en);
-        quiz.vi = capitalizeFirstLetter(quiz.vi);
+    // Tính số lần mỗi câu hỏi được trả lời và gán vào thuộc tính 'count'.
+    const newQuiz = allQuiz.map((quiz) => {
+        const aQuiz = answeredQuizs.find((a) => a.id === quiz.id);
+        quiz.count = aQuiz ? parseInt(aQuiz.count) + 1 : 0;
+        return quiz;
     });
-    return allQuiz;
+
+    // Sắp xếp danh sách câu hỏi theo số lần được trả lời tăng dần.
+    const sortedQuiz = newQuiz.sort((a, b) => a.count - b.count);
+
+    // Lấy danh sách numQuiz câu hỏi ít được sử dụng nhất.
+    const leastUsedQuiz = sortedQuiz.slice(0, numQuiz);
+
+    console.log(leastUsedQuiz);
+
+    return leastUsedQuiz;
 }
 
-// Lấy toàn bộ các câu trả lời từ bộ câu hỏi
+// Viết hoa chữ cái đầu tiên của mỗi từ trong thuộc tính 'en' và 'vi' của tất cả các câu đố trong mảng đã cho
+function capitalizeFirstLetterAllQuiz(allQuiz) {
+    return allQuiz.map((quiz) => ({
+        en: capitalizeFirstLetter(quiz.en),
+        vi: capitalizeFirstLetter(quiz.vi),
+    }));
+}
+
+// Lấy tất cả các câu trả lời từ một loạt các câu hỏi đã cho
 function getAllAnswers(allQuiz) {
     const allAnswers = allQuiz.map((quiz) => quiz.en);
     return allAnswers;

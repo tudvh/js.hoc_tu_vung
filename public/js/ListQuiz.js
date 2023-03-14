@@ -1,6 +1,7 @@
-// Lớp ListQuiz đại diện cho một danh sách các câu hỏi
+// Class ListQuiz dùng để quản lý danh sách các câu hỏi trong một bài trắc nghiệm.
 class ListQuiz {
-    // Khởi tạo một đối tượng ListQuiz mới
+
+    // Khởi tạo đối tượng ListQuiz với các thông tin truyền vào.
     constructor(listQuiz, type, listAnswer) {
         this.listQuiz = listQuiz;
         this.type = type;
@@ -8,82 +9,69 @@ class ListQuiz {
         this.current = 0;
     }
 
-    // Lấy chiều dài của listQuiz
+    // Trả về số lượng câu hỏi trong bài trắc nghiệm.
     getLength() {
         return this.listQuiz.length;
     }
 
-    getCurrentQuiz() {
+    // Trả về câu hỏi hiện tại.
+    getCurrentQuizObject() {
         return this.listQuiz[this.current];
     }
 
-    // Thêm một câu hỏi mới vào danh sách
+    // Thêm một câu hỏi mới vào danh sách.
     addQuiz(quiz) {
         this.listQuiz.push(quiz);
     }
 
-    // Lấy câu hỏi hiện tại
-    getCurrentQuestion() {
-        // Lấy phần nội dung của câu hỏi hiện tại
+    // Trả về nội dung câu hỏi hiện tại để hiển thị trên giao diện.
+    getCurrentQuestionHTML() {
         const questionText = `Trong tiếng Anh, <strong>"${
-            this.listQuiz[this.current].vi
+            this.getCurrentQuizObject().vi
         }"</strong> có nghĩa là gì?`;
 
         return `<h1>${this.getQuestionHeader()}</h1><p>${questionText}</p>`;
     }
 
-    // Lấy phần header của câu hỏi hiện tại
+    // Trả về tiêu đề câu hỏi hiện tại để hiển thị trên giao diện.
     getQuestionHeader() {
-        if (this.type == "learning") {
-            return `Câu ${this.current + 1}:`;
-        } else if (this.type == "wrong") {
-            return "Câu sai trước đây:";
-        } else {
-            return null;
-        }
+        return this.type === "learning"
+            ? `Câu ${this.current + 1}:`
+            : this.type === "wrong"
+            ? "Câu sai trước đây:"
+            : null;
     }
 
-    // Lấy các phương án trả lời cho câu hỏi hiện tại bằng cách chọn một đáp án đúng và ba đáp án sai và xáo trộn chúng.
+    // Trả về danh sách các câu trả lời cho câu hỏi hiện tại.
     getCurrentAnswers() {
         const answers = [];
 
-        // Thêm 3 đáp án sai từ listAnswer
         answers.push(
             ...getRandomElements(this.listAnswer, 3, this.getCorrectAnswer())
         );
 
-        // Thêm đáp án đúng
         answers.push(this.getCorrectAnswer());
 
-        // Xáo trộn mảng đáp án
         shuffleArray(answers);
 
         return answers;
     }
 
-    // Lấy câu trả lời chính xác cho câu hỏi hiện tại.
+    // Lấy câu trả lời đúng.
     getCorrectAnswer() {
-        return this.listQuiz[this.current].en;
+        return this.getCurrentQuizObject().en;
     }
 
     addQuizsToSession(sessionQuizs) {
+        sessionQuizs = sessionQuizs || [];
+
         this.listQuiz.forEach((quiz) => {
-            let index;
-
-            if (sessionQuizs) {
-                index = sessionQuizs.findIndex(
-                    (ssQuiz) => ssQuiz.id === quiz.id
-                );
-            } else {
-                index = -1;
-                sessionQuizs = [];
-            }
-
-            if (index != -1) {
-                sessionQuizs[index].count += 2;
-            } else {
-                sessionQuizs.push({ id: quiz.id, count: 2 });
-            }
+            const index = sessionQuizs.findIndex(
+                (ssQuiz) => ssQuiz.id === quiz.id
+            );
+            sessionQuizs[index]
+                ? (sessionQuizs[index].count += 2)
+                : sessionQuizs.push({ id: quiz.id, count: 2 });
         });
 
         return sessionQuizs;
@@ -94,9 +82,7 @@ class ListQuiz {
             const index = sessionQuizs.findIndex(
                 (ssQuiz) => ssQuiz.id === quiz.id
             );
-            if (index != -1) {
-                sessionQuizs[index].count -= 1;
-            }
+            sessionQuizs[index] && sessionQuizs[index].count--;
         });
 
         return sessionQuizs;

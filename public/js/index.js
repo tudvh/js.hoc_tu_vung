@@ -173,7 +173,7 @@ function setQuizElement() {
     showLoading();
 
     // Thiết lập câu hỏi hiện tại cho trang HTML
-    questionElement.innerHTML = currentQuiz.getCurrentQuestion();
+    questionElement.innerHTML = currentQuiz.getCurrentQuestionHTML();
 
     // Lấy danh sách các phương án trả lời hiện tại
     let answers = currentQuiz.getCurrentAnswers();
@@ -201,48 +201,47 @@ function showQuizScreen() {
     resultScreen.classList.add("hidden");
 }
 
-// Chuyển đổi sang chế độ học bằng cách tạo ra một bài quiz mới với giọng Tiếng Anh
-function swapToLearningMode() {
-    // Hiển thị loading
+// Chuyển sang chế độ học tập.
+async function swapToLearningMode() {
+    // Hiển thị Loading
     showLoading();
 
-    loadEnGBVoice();
+    try {
+        // Tải giọng nói tiếng Anh.
+        await loadEnGBVoice();
 
-    // Lấy dữ liệu tất cả các câu hỏi và load giọng Tiếng Anh
-    getAllQuiz()
-        .then((allQuiz) => {
-            // Chuyển đổi chữ cái đầu tiên của tất cả các câu hỏi sang chữ in hoa
-            allQuiz = capitalizeFirstLetterAllQuiz(allQuiz);
+        // Lấy danh sách tất cả các câu hỏi và chuyển đổi tất cả các chữ cái đầu tiên thành chữ hoa.
+        let allQuiz = await getAllQuiz();
+        allQuiz = capitalizeFirstLetterAllQuiz(allQuiz);
 
-            let leastUsedQuiz = getLeastUsedQuizs(allQuiz, 30);
+        // Lấy danh sách các câu hỏi ít được sử dụng nhất và danh sách tất cả các câu trả lời.
+        const leastUsedQuiz = getLeastUsedQuizs(allQuiz, 30);
+        const allAnswers = getAllAnswers(allQuiz);
 
-            // Lấy danh sách tất cả các đáp án
-            allAnswers = getAllAnswers(allQuiz);
+        // Tạo đối tượng những câu hỏi sẽ học lần này.
+        learningQuiz = new ListQuiz(
+            getRandomElements(leastUsedQuiz, maxQuestion),
+            "learning",
+            allAnswers
+        );
 
-            // Tạo ra một bài quiz mới cho chế độ học
-            learningQuiz = new ListQuiz(
-                getRandomElements(leastUsedQuiz, maxQuestion),
-                "learning",
-                allAnswers
-            );
+        // Tạo đối tượng những câu trả lời sai.
+        wrongQuiz = new ListQuiz([], "wrong", allAnswers);
 
-            // Tạo ra một bài quiz mới cho chế độ sai
-            wrongQuiz = new ListQuiz([], "wrong", allAnswers);
+        // Thiết lập chế độ hiện tại là chế độ học.
+        currentQuiz = learningQuiz;
 
-            // Thiết lập bài quiz hiện tại là bài quiz cho chế độ học
-            currentQuiz = learningQuiz;
+        // Hiển thị màn hình học.
+        showQuizScreen();
 
-            // Hiển thị màn hình quiz
-            showQuizScreen();
+        // Kiểm tra chế độ.
+        checkMode();
 
-            checkMode();
-
-            openFullscreen();
-        })
-        .catch((error) => {
-            // Hiển thị lỗi nếu có
-            console.error(error);
-        });
+        // Mở toàn màn hình.
+        toggleFullscreen();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 // Chuyển sang chế độ trả lời lại những câu hỏi sai
@@ -417,7 +416,7 @@ submitButton.addEventListener("click", function (event) {
         textToSpeech(currentQuiz.getCorrectAnswer());
 
         // Thêm vào câu sai
-        wrongQuiz.addQuiz(currentQuiz.getCurrentQuiz());
+        wrongQuiz.addQuiz(currentQuiz.getCurrentQuizObject());
         if (currentQuiz == wrongQuiz) {
             currentQuiz = wrongQuiz;
         }
