@@ -31,6 +31,21 @@ let voiceSpeech;
 const utterance = new SpeechSynthesisUtterance();
 const synth = window.speechSynthesis;
 
+const currentVersion = "2.0";
+
+function checkVersion() {
+    const previousVersion = localStorage.getItem("appVersion");
+
+    if (previousVersion === null || previousVersion !== currentVersion) {
+        showLoading("Đang kiểm tra cập nhật...");
+
+        localStorage.clear();
+        localStorage.setItem("appVersion", currentVersion);
+
+        setTimeout(() => hideLoading(), 1000);
+    }
+}
+
 function setProgressBar() {
     let currentProgress = learningQuiz.current + wrongQuiz.current + 1;
     let totalQuiz = learningQuiz.getLength() + wrongQuiz.getLength();
@@ -109,7 +124,9 @@ function resetCssElements() {
 }
 
 // Hiển thị giao diện load
-function showLoading() {
+function showLoading(content) {
+    let loadContent = loadElement.querySelector(".load-text");
+    loadContent.textContent = content;
     loadElement.classList.remove("hidden");
 }
 
@@ -170,7 +187,7 @@ function loadEnGBVoice() {
 // Thiết lập câu hỏi và các phương án trả lời
 function setQuizElement() {
     // Hiển thị giao diện load
-    showLoading();
+    showLoading("Đang tải...");
 
     // Thiết lập câu hỏi hiện tại cho trang HTML
     questionElement.innerHTML = currentQuiz.getCurrentQuestionHTML();
@@ -184,9 +201,7 @@ function setQuizElement() {
     }
 
     // Ẩn giao diện load sau 1 giây
-    setTimeout(() => {
-        hideLoading();
-    }, 1000);
+    setTimeout(() => hideLoading(), 1000);
 }
 
 // Hiển thị màn hình học
@@ -204,7 +219,7 @@ function showQuizScreen() {
 // Chuyển sang chế độ học tập.
 async function swapToLearningMode() {
     // Hiển thị Loading
-    showLoading();
+    showLoading("Đang tải...");
 
     try {
         // Tải giọng nói tiếng Anh.
@@ -213,9 +228,15 @@ async function swapToLearningMode() {
         // Lấy danh sách tất cả các câu hỏi và chuyển đổi tất cả các chữ cái đầu tiên thành chữ hoa.
         let allQuiz = await getAllQuiz();
         allQuiz = capitalizeFirstLetterAllQuiz(allQuiz);
+        allQuiz = shuffleArray(allQuiz);
 
-        // Lấy danh sách các câu hỏi ít được sử dụng nhất và danh sách tất cả các câu trả lời.
+        // Lấy danh sách các câu hỏi ít được sử dụng nhất
         const leastUsedQuiz = getLeastUsedQuizs(allQuiz, 30);
+        console.log(
+            "Danh sách những câu hỏi ít được sử dụng nhất",
+            leastUsedQuiz
+        );
+
         const allAnswers = getAllAnswers(allQuiz);
 
         // Tạo đối tượng những câu hỏi sẽ học lần này.
@@ -259,7 +280,7 @@ function swapToRetryMode() {
 // Hiển thị màn hình thông báo chuẩn bị trả lời lại những câu hỏi sai
 function showRetryScreen() {
     // Hiển thị loading
-    showLoading();
+    showLoading("Đang tải...");
 
     // Ẩn màn hình start và quiz, hiển thị màn hình retry và ẩn màn hình kết quả
     startScreenElement.classList.add("hidden");
@@ -268,15 +289,13 @@ function showRetryScreen() {
     resultScreen.classList.add("hidden");
 
     // Sau 1 giây, ẩn loading
-    setTimeout(function () {
-        hideLoading();
-    }, 1000);
+    setTimeout(() => hideLoading(), 1000);
 }
 
 // Hiển thị màn hình kết quả bài học
 function showResultScreen() {
     // Hiển thị loading
-    showLoading();
+    showLoading("Đang tải...");
 
     // Ẩn màn hình start và quiz, retry và hiển thị màn hình kết quả
     startScreenElement.classList.add("hidden");
@@ -284,9 +303,7 @@ function showResultScreen() {
     retryScreen.classList.add("hidden");
     resultScreen.classList.remove("hidden");
 
-    setTimeout(function () {
-        hideLoading();
-    }, 1000);
+    setTimeout(() => hideLoading(), 1000);
 }
 
 // Hàm kiểm tra khi hoàn thành bài học
@@ -331,6 +348,7 @@ function checkMode() {
 window.onload = function () {
     loadEnGBVoice();
     loadAudio();
+    checkVersion();
 };
 
 // Thêm sự kiện khi chọn câu trả lời

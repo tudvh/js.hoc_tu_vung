@@ -25,39 +25,36 @@ function getAllQuiz() {
     );
 }
 
-// Lấy danh sách các câu hỏi ít được sử dụng nhất.
+// Hàm getLeastUsedQuizs nhận vào danh sách tất cả các câu hỏi và số lượng câu hỏi muốn trả về.
+// Nó trả về một mảng mới chứa 'numQuiz' câu hỏi được sắp xếp theo số lần trả lời ít nhất.
+// Nếu danh sách các câu hỏi đã trả lời là trống, nó trả về danh sách tất cả các câu hỏi.
 function getLeastUsedQuizs(allQuiz, numQuiz) {
-    // Lấy danh sách các câu hỏi đã được trả lời từ local storage.
+    // Lấy danh sách các câu hỏi đã trả lời từ localStorage
     const answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
-    console.log(answeredQuizs);
+    console.log("Danh sách những câu hỏi đã trả lời", answeredQuizs);
 
-    // Nếu danh sách câu hỏi đã được trả lời không tồn tại, trả về danh sách tất cả câu hỏi.
+    // Nếu danh sách câu hỏi đã trả lời rỗng, hiển thị thông báo và trả về danh sách tất cả các câu hỏi.
     if (!answeredQuizs) {
-        console.log("Danh sách những câu hỏi mà bạn đã trả lời đang trống");
+        console.log("Danh sách những câu hỏi đã trả lời của bạn đang trống");
         return allQuiz;
     }
 
-    // Tính số lần mỗi câu hỏi được trả lời và gán vào thuộc tính 'count'.
-    const newQuiz = allQuiz.map((quiz) => {
+    // Tạo một bản sao mới của danh sách tất cả các câu hỏi và gán số lần trả lời tương ứng cho mỗi câu hỏi.
+    let newQuiz = JSON.parse(JSON.stringify(allQuiz));
+    newQuiz = newQuiz.map((quiz) => {
         const aQuiz = answeredQuizs.find((a) => a.id === quiz.id);
-        quiz.count = aQuiz ? parseInt(aQuiz.count) + 1 : 0;
+        quiz.count = aQuiz ? aQuiz.count : 0;
         return quiz;
     });
 
-    // Sắp xếp danh sách câu hỏi theo số lần được trả lời tăng dần.
-    const sortedQuiz = newQuiz.sort((a, b) => a.count - b.count);
-
-    // Lấy danh sách numQuiz câu hỏi ít được sử dụng nhất.
-    const leastUsedQuiz = sortedQuiz.slice(0, numQuiz);
-
-    console.log(leastUsedQuiz);
-
-    return leastUsedQuiz;
+    // Sắp xếp danh sách mới theo số lần trả lời ít nhất và trả về 'numQuiz' câu hỏi đầu tiên.
+    return newQuiz.sort((a, b) => a.count - b.count).slice(0, numQuiz);
 }
 
 // Viết hoa chữ cái đầu tiên của mỗi từ trong thuộc tính 'en' và 'vi' của tất cả các câu đố trong mảng đã cho
 function capitalizeFirstLetterAllQuiz(allQuiz) {
     return allQuiz.map((quiz) => ({
+        id: quiz.id,
         en: capitalizeFirstLetter(quiz.en),
         vi: capitalizeFirstLetter(quiz.vi),
     }));
