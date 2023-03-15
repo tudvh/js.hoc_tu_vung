@@ -52,9 +52,7 @@ class ListQuiz {
 
         answers.push(this.getCorrectAnswer());
 
-        shuffleArray(answers);
-
-        return answers;
+        return shuffleArray(answers);
     }
 
     // Lấy câu trả lời đúng.
