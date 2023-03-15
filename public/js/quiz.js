@@ -30,7 +30,7 @@ function getAllQuiz() {
 // Nếu danh sách các câu hỏi đã trả lời là trống, nó trả về danh sách tất cả các câu hỏi.
 function getLeastUsedQuizs(allQuiz, numQuiz) {
     // Lấy danh sách các câu hỏi đã trả lời từ localStorage
-    const answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
+    answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
     console.log("Danh sách những câu hỏi đã trả lời", answeredQuizs);
 
     // Nếu danh sách câu hỏi đã trả lời rỗng, hiển thị thông báo và trả về danh sách tất cả các câu hỏi.

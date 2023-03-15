@@ -1,6 +1,5 @@
 // Class ListQuiz dùng để quản lý danh sách các câu hỏi trong một bài trắc nghiệm.
 class ListQuiz {
-
     // Khởi tạo đối tượng ListQuiz với các thông tin truyền vào.
     constructor(listQuiz, type, listAnswer) {
         this.listQuiz = listQuiz;
