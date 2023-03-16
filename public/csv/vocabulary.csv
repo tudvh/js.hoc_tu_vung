@@ -86,7 +86,7 @@ id,en,vi
 85,pet food,Thức ăn cho thú cưng
 86,necklace,vòng cổ
 87,bracelet,vòng đeo tay
-88,sneakers,giày thể thao
+88,sneaker,Sneaker
 89,sweater,áo len
 90,skirt,váy ngắn
 91,t-shirt,Áo thun
@@ -94,7 +94,7 @@ id,en,vi
 93,high heels,giày cao gót
 94,cap,mũ lưỡi trai
 95,scarf,khăn quàng cổ
-96,sunglasses,kính râm
+96,sunglass,kính râm
 97,high-priced,Giá cao
 98,fridge,tủ lạnh
 99,tablet,máy tính bảng
@@ -151,7 +151,7 @@ id,en,vi
 150,opportunity,cơ hội
 151,long-lasting friendship,tình bạn lâu dài
 152,decided,quyết định
-153,aspirations,Khát vọng
+153,aspiration,Khát vọng
 154,scope,phạm vi
 155,complete,hoàn thành
 156,funding,kinh phí
@@ -227,3 +227,13 @@ id,en,vi
 226,contrast,sự tương phản
 227,specific,cụ thể
 228,describe,mô tả
+229,provide,cung cấp
+230,observe,quan sát
+231,reward,phần thưởng
+232,benefit,lợi ích
+233,competency,năng lực
+234,consultants,Tư vấn
+235,hire,Thuê
+236,communication,giao tiếp
+237,organize,tổ chức
+238,feature,tính năng
