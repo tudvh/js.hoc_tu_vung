@@ -5,7 +5,7 @@ let wrongAnswersCount;
 function getAllQuiz() {
     // Sử dụng fetch để lấy nội dung của file csv.
     return (
-        fetch("public/csv/vocabulary.csv")
+        fetch("https://dangtus.github.io/store/js.hoc_tu_vung/vocabulary.csv")
             // Sử dụng phương thức text để đọc dữ liệu của response.
             .then((response) => response.text())
             // Sử dụng Papa.parse để phân tích dữ liệu được đọc từ response.
