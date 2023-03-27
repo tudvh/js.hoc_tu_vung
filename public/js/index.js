@@ -166,8 +166,8 @@ function loadEnGBVoice() {
         // Duyệt qua danh sách các giọng nói được hỗ trợ bởi trình duyệt
         for (let voice of synth.getVoices()) {
             if (
-                voice.name == "Google UK English Female" ||
-                voice.name == "Tiếng Anh Vương quốc Anh"
+                voice.name === "Google UK English Female" ||
+                voice.name === "Tiếng Anh Hoa Kỳ"
             ) {
                 // Đặt giọng nói cho đối tượng voiceSpeech
                 voiceSpeech = voice;
