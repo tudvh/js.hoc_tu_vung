@@ -1,23 +1,23 @@
 // Khai báo các biến lưu trữ các phần tử trên trang web
-const startScreenElement = document.getElementById("start-screen");
-const quizScreen = document.getElementById("quiz-screen");
-const retryScreen = document.getElementById("retry-screen");
-const resultScreen = document.getElementById("result-screen");
+const startScreenElement = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const retryScreen = document.getElementById('retry-screen');
+const resultScreen = document.getElementById('result-screen');
 
-const progressBarElement = document.querySelector(".progress-bar");
-const questionElement = document.getElementById("question");
-const answerElements = document.querySelectorAll(".answers .card");
-const buttons = document.querySelectorAll("button");
-const submitButton = document.getElementById("submit-button");
-const resultOverlayElement = document.getElementById("result-overlay");
-const resultModalElement = document.getElementById("result-modal");
-const resultTextElement = document.getElementById("result-text");
-const resultMessageElement = document.getElementById("result-message");
-const resultIconElement = document.getElementById("result-icon");
-const nextButton = document.getElementById("next-button");
-const audioCorrect = document.getElementById("audio-correct");
-const audioWrong = document.getElementById("audio-wrong");
-const loadElement = document.querySelector(".load-wrapper");
+const progressBarElement = document.querySelector('.progress-bar');
+const questionElement = document.getElementById('question');
+const answerElements = document.querySelectorAll('.answers .card');
+const buttons = document.querySelectorAll('button');
+const submitButton = document.getElementById('submit-button');
+const resultOverlayElement = document.getElementById('result-overlay');
+const resultModalElement = document.getElementById('result-modal');
+const resultTextElement = document.getElementById('result-text');
+const resultMessageElement = document.getElementById('result-message');
+const resultIconElement = document.getElementById('result-icon');
+const nextButton = document.getElementById('next-button');
+const audioCorrect = document.getElementById('audio-correct');
+const audioWrong = document.getElementById('audio-wrong');
+const loadElement = document.querySelector('.load-wrapper');
 
 // Khởi tạo các biến lưu trữ trạng thái của bài học và các câu hỏi
 let learningQuiz;
@@ -31,16 +31,16 @@ let voiceSpeech;
 const utterance = new SpeechSynthesisUtterance();
 const synth = window.speechSynthesis;
 
-const currentVersion = "2.0";
+const currentVersion = '2.0';
 
 function checkVersion() {
-    const previousVersion = localStorage.getItem("appVersion");
+    const previousVersion = localStorage.getItem('appVersion');
 
     if (previousVersion === null || previousVersion !== currentVersion) {
-        showLoading("Đang kiểm tra cập nhật...");
+        showLoading('Đang kiểm tra cập nhật...');
 
         localStorage.clear();
-        localStorage.setItem("appVersion", currentVersion);
+        localStorage.setItem('appVersion', currentVersion);
 
         setTimeout(() => hideLoading(), 1000);
     }
@@ -48,10 +48,10 @@ function checkVersion() {
 
 function setProgressBar() {
     let currentProgress = learningQuiz.current + wrongQuiz.current + 1;
-    let totalQuiz = learningQuiz.getLength() + wrongQuiz.getLength();
+    let totalQuiz = learningQuiz.length + wrongQuiz.length;
     let percent = (currentProgress / totalQuiz) * 100;
 
-    const completedElement = progressBarElement.querySelector(".completed");
+    const completedElement = progressBarElement.querySelector('.completed');
     completedElement.style.width = `${percent}%`;
 
     console.log(`${percent}%`);
@@ -60,37 +60,37 @@ function setProgressBar() {
 // Thay đổi giao diện hiển thị kết quả đúng
 function displayCorrectResult() {
     // Loại bỏ lớp "wrong" và thêm lớp "correct" vào phần tử modal kết quả
-    resultModalElement.classList.remove("wrong");
-    resultModalElement.classList.add("correct");
+    resultModalElement.classList.remove('wrong');
+    resultModalElement.classList.add('correct');
 
     // Thiết lập văn bản thông báo kết quả đúng
-    resultTextElement.textContent = "Tuyệt vời!";
+    resultTextElement.textContent = 'Tuyệt vời!';
 
     // Xóa văn bản thông báo chi tiết và thay đổi nút tiếp tục thành "Tiếp tục"
-    resultMessageElement.textContent = "";
-    nextButton.textContent = "Tiếp tục";
+    resultMessageElement.textContent = '';
+    nextButton.textContent = 'Tiếp tục';
 
     // Loại bỏ biểu tượng "bi-x-circle-fill" và thêm biểu tượng "bi-check-circle-fill"
-    resultIconElement.classList.remove("bi-x-circle-fill");
-    resultIconElement.classList.add("bi-check-circle-fill");
+    resultIconElement.classList.remove('bi-x-circle-fill');
+    resultIconElement.classList.add('bi-check-circle-fill');
 }
 
 // Thay đổi giao diện hiển thị kết quả sai
 function displayWrongResult() {
     // Loại bỏ lớp "correct" và thêm lớp "wrong" vào phần tử modal kết quả
-    resultModalElement.classList.remove("correct");
-    resultModalElement.classList.add("wrong");
+    resultModalElement.classList.remove('correct');
+    resultModalElement.classList.add('wrong');
 
     // Thiết lập văn bản thông báo kết quả sai
-    resultTextElement.textContent = "Không chính xác";
+    resultTextElement.textContent = 'Không chính xác';
 
     // Thiết lập văn bản thông báo chi tiết về đáp án đúng và thay đổi nút tiếp tục thành "Đã hiểu"
     resultMessageElement.innerHTML = `<strong>Đáp án đúng: </strong>${currentQuiz.getCorrectAnswer()}`;
-    nextButton.textContent = "Đã hiểu";
+    nextButton.textContent = 'Đã hiểu';
 
     // Loại bỏ biểu tượng "bi-check-circle-fill" và thêm biểu tượng "bi-x-circle-fill"
-    resultIconElement.classList.remove("bi-check-circle-fill");
-    resultIconElement.classList.add("bi-x-circle-fill");
+    resultIconElement.classList.remove('bi-check-circle-fill');
+    resultIconElement.classList.add('bi-x-circle-fill');
 }
 
 // Tải tệp âm thanh "audioCorrect" và "audioWrong"
@@ -112,32 +112,32 @@ function playWrongAudio() {
 // Đặt lại CSS cho các phần tử trong câu hỏi và câu trả lời
 function resetCssElements() {
     // Ẩn overlay kết quả
-    resultOverlayElement.classList.add("hidden");
+    resultOverlayElement.classList.add('hidden');
 
     // Vô hiệu hóa nút "Tiếp tục"
-    nextButton.classList.add("disabled");
+    nextButton.classList.add('disabled');
 
     // Đặt lại CSS cho các câu trả lời
     answerElements.forEach((a) => {
-        a.classList.remove("selected");
+        a.classList.remove('selected');
     });
 }
 
 // Hiển thị giao diện load
 function showLoading(content) {
-    let loadContent = loadElement.querySelector(".load-text");
+    let loadContent = loadElement.querySelector('.load-text');
     loadContent.textContent = content;
-    loadElement.classList.remove("hidden");
+    loadElement.classList.remove('hidden');
 }
 
 // Ẩn giao diện load
 function hideLoading() {
-    loadElement.classList.add("hidden");
+    loadElement.classList.add('hidden');
 }
 
 // Hàm này được sử dụng để chuyển hướng người dùng về trang chủ.
 function redirectToHome() {
-    location.href = ".";
+    location.href = '.';
 }
 
 // Hàm này được sử dụng để lưu trữ các câu hỏi đã trả lời và câu hỏi sai vào phiên làm việc của người dùng.
@@ -147,7 +147,7 @@ function setDataSesstion() {
     // Thêm tất cả các câu hỏi sai vào phiên làm việc của người dùng.
     answeredQuizs = wrongQuiz.addWrongQuizsToSession(answeredQuizs);
     // Lưu trữ phiên làm việc của người dùng trên trình duyệt bằng cách sử dụng phương thức setItem() của localStorage.
-    localStorage.setItem("answeredQuizs", JSON.stringify(answeredQuizs));
+    localStorage.setItem('answeredQuizs', JSON.stringify(answeredQuizs));
 }
 
 // Chuyển đổi văn bản thành giọng nói sử dụng Text-to-Speech API
@@ -165,10 +165,7 @@ function loadEnGBVoice() {
     return new Promise((resolve) => {
         // Duyệt qua danh sách các giọng nói được hỗ trợ bởi trình duyệt
         for (let voice of synth.getVoices()) {
-            if (
-                voice.name === "Google UK English Female" ||
-                voice.name === "Tiếng Anh Hoa Kỳ"
-            ) {
+            if (voice.name === 'Google UK English Female' || voice.name === 'Tiếng Anh Hoa Kỳ') {
                 // Đặt giọng nói cho đối tượng voiceSpeech
                 voiceSpeech = voice;
 
@@ -187,17 +184,17 @@ function loadEnGBVoice() {
 // Thiết lập câu hỏi và các phương án trả lời
 function setQuizElement() {
     // Hiển thị giao diện load
-    showLoading("Đang tải...");
+    showLoading('Đang tải...');
 
     // Thiết lập câu hỏi hiện tại cho trang HTML
-    questionElement.innerHTML = currentQuiz.getCurrentQuestionHTML();
+    questionElement.innerHTML = currentQuiz.currentQuestionHTML;
 
     // Lấy danh sách các phương án trả lời hiện tại
     let answers = currentQuiz.getCurrentAnswers();
 
     // Thiết lập các phương án trả lời trên trang HTML
     for (let i = 0; i < 4; i++) {
-        answerElements[i].querySelector(".card-text").textContent = answers[i];
+        answerElements[i].querySelector('.card-text').textContent = answers[i];
     }
 
     // Ẩn giao diện load sau 1 giây
@@ -207,19 +204,19 @@ function setQuizElement() {
 // Hiển thị màn hình học
 function showQuizScreen() {
     // Ẩn màn hình bắt đầu
-    startScreenElement.classList.add("hidden");
+    startScreenElement.classList.add('hidden');
     // Hiển thị màn hình học
-    quizScreen.classList.remove("hidden");
+    quizScreen.classList.remove('hidden');
     // Ẩn màn hình thử lại
-    retryScreen.classList.add("hidden");
+    retryScreen.classList.add('hidden');
     // Ẩn màn hình kết quả
-    resultScreen.classList.add("hidden");
+    resultScreen.classList.add('hidden');
 }
 
 // Chuyển sang chế độ học tập.
 async function swapToLearningMode() {
     // Hiển thị Loading
-    showLoading("Đang tải...");
+    showLoading('Đang tải...');
 
     try {
         // Tải giọng nói tiếng Anh.
@@ -232,22 +229,15 @@ async function swapToLearningMode() {
 
         // Lấy danh sách các câu hỏi ít được sử dụng nhất
         const leastUsedQuiz = getLeastUsedQuizs(allQuiz, 30);
-        console.log(
-            "Danh sách những câu hỏi ít được sử dụng nhất",
-            leastUsedQuiz
-        );
+        console.log('Danh sách những câu hỏi ít được sử dụng nhất', leastUsedQuiz);
 
         const allAnswers = getAllAnswers(allQuiz);
 
         // Tạo đối tượng những câu hỏi sẽ học lần này.
-        learningQuiz = new ListQuiz(
-            getRandomElements(leastUsedQuiz, maxQuestion),
-            "learning",
-            allAnswers
-        );
+        learningQuiz = new ListQuiz(getRandomElements(leastUsedQuiz, maxQuestion), 'learning', allAnswers);
 
         // Tạo đối tượng những câu trả lời sai.
-        wrongQuiz = new ListQuiz([], "wrong", allAnswers);
+        wrongQuiz = new ListQuiz([], 'wrong', allAnswers);
 
         // Thiết lập chế độ hiện tại là chế độ học.
         currentQuiz = learningQuiz;
@@ -268,7 +258,7 @@ async function swapToLearningMode() {
 // Chuyển sang chế độ trả lời lại những câu hỏi sai
 function swapToRetryMode() {
     currentQuiz = wrongQuiz;
-    wrongAnswersCount = wrongQuiz.getLength();
+    wrongAnswersCount = wrongQuiz.length;
 
     // Kiểm tra chế độ hiện tại và cập nhật nút kiểm tra
     checkMode();
@@ -280,13 +270,13 @@ function swapToRetryMode() {
 // Hiển thị màn hình thông báo chuẩn bị trả lời lại những câu hỏi sai
 function showRetryScreen() {
     // Hiển thị loading
-    showLoading("Đang tải...");
+    showLoading('Đang tải...');
 
     // Ẩn màn hình start và quiz, hiển thị màn hình retry và ẩn màn hình kết quả
-    startScreenElement.classList.add("hidden");
-    quizScreen.classList.add("hidden");
-    retryScreen.classList.remove("hidden");
-    resultScreen.classList.add("hidden");
+    startScreenElement.classList.add('hidden');
+    quizScreen.classList.add('hidden');
+    retryScreen.classList.remove('hidden');
+    resultScreen.classList.add('hidden');
 
     // Sau 1 giây, ẩn loading
     setTimeout(() => hideLoading(), 1000);
@@ -295,13 +285,13 @@ function showRetryScreen() {
 // Hiển thị màn hình kết quả bài học
 function showResultScreen() {
     // Hiển thị loading
-    showLoading("Đang tải...");
+    showLoading('Đang tải...');
 
     // Ẩn màn hình start và quiz, retry và hiển thị màn hình kết quả
-    startScreenElement.classList.add("hidden");
-    quizScreen.classList.add("hidden");
-    retryScreen.classList.add("hidden");
-    resultScreen.classList.remove("hidden");
+    startScreenElement.classList.add('hidden');
+    quizScreen.classList.add('hidden');
+    retryScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
 
     setTimeout(() => hideLoading(), 1000);
 }
@@ -311,7 +301,7 @@ function checkLearningQuizCompletion() {
     // Lưu dữ liệu phiên cho người dùng
     setDataSesstion();
     // Nếu số câu hỏi trả lời sai lớn hơn 0 thì hiển thị màn hình thử lại
-    if (wrongQuiz.getLength()) {
+    if (wrongQuiz.length) {
         return showRetryScreen();
     } else {
         // Ngược lại, hiển thị màn hình kết quả
@@ -324,7 +314,7 @@ function checkMode() {
     // Nếu đang ở chế độ học tập
     if (currentQuiz == learningQuiz) {
         // Nếu đã trả lời hết tất cả câu hỏi trong bài học
-        if (currentQuiz.current >= currentQuiz.getLength()) {
+        if (currentQuiz.current >= currentQuiz.length) {
             return checkLearningQuizCompletion();
         } else {
             // Ngược lại, thiết lập phần tử của câu hỏi
@@ -335,7 +325,7 @@ function checkMode() {
         // Nếu đã trả lời sai quá nhiều => về lại trang chủ
         if (currentQuiz.current >= wrongAnswersCount * 2) {
             return redirectToHome();
-        } else if (currentQuiz.current >= currentQuiz.getLength()) {
+        } else if (currentQuiz.current >= currentQuiz.length) {
             // Nếu đã trả lời hết tất cả câu hỏi sai => hiển thị màn hình kết quả
             return showResultScreen();
         } else {
@@ -353,73 +343,73 @@ window.onload = function () {
 
 // Thêm sự kiện khi chọn câu trả lời
 answerElements.forEach((aElement) => {
-    aElement.addEventListener("click", () => {
+    aElement.addEventListener('click', () => {
         // lưu lại nội dung của câu trả lời được chọn
-        selectedAnswer = aElement.querySelector(".card-text").innerText;
+        selectedAnswer = aElement.querySelector('.card-text').innerText;
 
         // đọc nội dung câu trả lời được chọn
         textToSpeech(selectedAnswer);
 
         // xóa class selected cho tất cả các câu trả lời
-        answerElements.forEach((a) => a.classList.remove("selected"));
+        answerElements.forEach((a) => a.classList.remove('selected'));
 
         // thêm class selected cho câu trả lời được chọn
-        aElement.classList.add("selected");
+        aElement.classList.add('selected');
 
         // Bật nút submit
-        submitButton.classList.remove("disabled");
+        submitButton.classList.remove('disabled');
     });
 
-    aElement.addEventListener("mousedown", () => {
-        aElement.classList.add("active");
+    aElement.addEventListener('mousedown', () => {
+        aElement.classList.add('active');
     });
 
-    aElement.addEventListener("mouseup", () => {
-        aElement.classList.remove("active");
+    aElement.addEventListener('mouseup', () => {
+        aElement.classList.remove('active');
     });
 
-    aElement.addEventListener("mouseleave", () => {
+    aElement.addEventListener('mouseleave', () => {
         setTimeout(function () {
-            aElement.classList.remove("active");
+            aElement.classList.remove('active');
         }, 300);
     });
 
-    aElement.addEventListener("touchstart", () => {
-        aElement.classList.add("active");
+    aElement.addEventListener('touchstart', () => {
+        aElement.classList.add('active');
     });
 
-    aElement.addEventListener("touchend", () => {
-        aElement.classList.remove("active");
+    aElement.addEventListener('touchend', () => {
+        aElement.classList.remove('active');
     });
 });
 
 // Thêm sự kiện khi click vào các nút button
 buttons.forEach((bElement) => {
-    bElement.addEventListener("mousedown", () => {
-        bElement.classList.add("active");
+    bElement.addEventListener('mousedown', () => {
+        bElement.classList.add('active');
     });
 
-    bElement.addEventListener("mouseup", () => {
-        bElement.classList.remove("active");
+    bElement.addEventListener('mouseup', () => {
+        bElement.classList.remove('active');
     });
 
-    bElement.addEventListener("mouseleave", () => {
+    bElement.addEventListener('mouseleave', () => {
         setTimeout(function () {
-            bElement.classList.remove("active");
+            bElement.classList.remove('active');
         }, 300);
     });
 
-    bElement.addEventListener("touchstart", () => {
-        bElement.classList.add("active");
+    bElement.addEventListener('touchstart', () => {
+        bElement.classList.add('active');
     });
 
-    bElement.addEventListener("touchend", () => {
-        bElement.classList.remove("active");
+    bElement.addEventListener('touchend', () => {
+        bElement.classList.remove('active');
     });
 });
 
 // thêm sự kiện khi nhấn vào nút submit button
-submitButton.addEventListener("click", function (event) {
+submitButton.addEventListener('click', function (event) {
     // Prevent page from reloading on submit
     event.preventDefault();
 
@@ -434,7 +424,7 @@ submitButton.addEventListener("click", function (event) {
         textToSpeech(currentQuiz.getCorrectAnswer());
 
         // Thêm vào câu sai
-        wrongQuiz.addQuiz(currentQuiz.getCurrentQuizObject());
+        wrongQuiz.addQuiz(currentQuiz.currentQuizObject);
         if (currentQuiz == wrongQuiz) {
             currentQuiz = wrongQuiz;
         }
@@ -443,19 +433,19 @@ submitButton.addEventListener("click", function (event) {
     setProgressBar();
 
     // Hiển thị kết quả
-    resultOverlayElement.classList.remove("hidden");
+    resultOverlayElement.classList.remove('hidden');
 
     // Bật nút sang câu tiếp theo
     setTimeout(function () {
-        nextButton.classList.remove("disabled");
+        nextButton.classList.remove('disabled');
     }, 200);
 
     // Tắt nút trả lời
-    submitButton.classList.add("disabled");
+    submitButton.classList.add('disabled');
 });
 
 // Add event listener for next button
-nextButton.addEventListener("click", function (event) {
+nextButton.addEventListener('click', function (event) {
     event.preventDefault();
 
     resetCssElements();

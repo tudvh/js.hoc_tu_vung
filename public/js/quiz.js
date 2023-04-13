@@ -5,16 +5,16 @@ let wrongAnswersCount;
 function getAllQuiz() {
     // Sử dụng fetch để lấy nội dung của file csv.
     return (
-        fetch("https://dangtus.github.io/store/js.hoc_tu_vung/vocabulary.csv")
+        fetch('https://dangtus.github.io/store/js.hoc_tu_vung/vocabulary.csv')
             // Sử dụng phương thức text để đọc dữ liệu của response.
             .then((response) => response.text())
             // Sử dụng Papa.parse để phân tích dữ liệu được đọc từ response.
             .then((data) =>
                 Papa.parse(data, {
                     header: true,
-                    delimiter: ",",
+                    delimiter: ',',
                     skipEmptyLines: true,
-                })
+                }),
             )
             // Trả về dữ liệu đã được phân tích bởi Papa.parse.
             .then((results) => results.data)
@@ -30,12 +30,12 @@ function getAllQuiz() {
 // Nếu danh sách các câu hỏi đã trả lời là trống, nó trả về danh sách tất cả các câu hỏi.
 function getLeastUsedQuizs(allQuiz, numQuiz) {
     // Lấy danh sách các câu hỏi đã trả lời từ localStorage
-    answeredQuizs = JSON.parse(localStorage.getItem("answeredQuizs"));
-    console.log("Danh sách những câu hỏi đã trả lời", answeredQuizs);
+    answeredQuizs = JSON.parse(localStorage.getItem('answeredQuizs'));
+    console.log('Danh sách những câu hỏi đã trả lời', answeredQuizs);
 
     // Nếu danh sách câu hỏi đã trả lời rỗng, hiển thị thông báo và trả về danh sách tất cả các câu hỏi.
     if (!answeredQuizs) {
-        console.log("Danh sách những câu hỏi đã trả lời của bạn đang trống");
+        console.log('Danh sách những câu hỏi đã trả lời của bạn đang trống');
         return allQuiz;
     }
 

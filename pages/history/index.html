@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>History | Học từ vựng</title>
+        <link rel="icon" href="https://dangtus.github.io/store/js.hoc_tu_vung/avata.png" />
+    </head>
+
+    <style>
+        #root {
+            margin-top: 20px;
+        }
+    </style>
+
+    <body>
+        <h1>History</h1>
+        <button onclick="viewHistory()">View History</button>
+        <br />
+        <div id="root"></div>
+
+        <script src="../../public/js/quiz.js"></script>
+        <script>
+            async function viewHistory() {
+                while (true) {
+                    const passwordInput = prompt('Hãy nhập mật khẩu');
+
+                    if (passwordInput === 'chungta') {
+                        // get
+                        let listAnswered = JSON.parse(localStorage.getItem('answeredQuizs'));
+
+                        // sort
+                        listAnswered.sort((a, b) => a.count - b.count);
+
+                        // set html
+                        let listAnsweredHTML = listAnswered
+                            .map(
+                                (answer) =>
+                                    `Từ số <strong>${answer.id}</strong> có <strong>${answer.count}</strong> điểm`,
+                            )
+                            .join('<br>');
+
+                        // show
+                        document.querySelector('#root').innerHTML = listAnsweredHTML;
+
+                        break;
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
