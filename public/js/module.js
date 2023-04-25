@@ -27,15 +27,23 @@ const getRandomElements = (array, count, excludedElements = []) => {
 };
 
 // Hàm chuyển đổi trạng thái toàn màn hình
-const toggleFullscreen = () => {
-    const elem = document.documentElement;
-    const fullscreenElement =
-        document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-    if (!fullscreenElement) {
-        const requestFullscreen = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.msRequestFullscreen;
-        requestFullscreen && requestFullscreen();
-    } else {
-        const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
-        exitFullscreen && exitFullscreen();
+const requestFullscreen = () => {
+    element = document.documentElement;
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
     }
 };
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}

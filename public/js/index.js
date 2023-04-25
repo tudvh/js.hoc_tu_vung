@@ -85,7 +85,7 @@ function displayWrongResult() {
     resultTextElement.textContent = 'Không chính xác';
 
     // Thiết lập văn bản thông báo chi tiết về đáp án đúng và thay đổi nút tiếp tục thành "Đã hiểu"
-    resultMessageElement.innerHTML = `<strong>Đáp án đúng: </strong>${currentQuiz.getCorrectAnswer()}`;
+    resultMessageElement.innerHTML = `<strong>Đáp án đúng: </strong>${currentQuiz.correctAnswer}`;
     nextButton.textContent = 'Đã hiểu';
 
     // Loại bỏ biểu tượng "bi-check-circle-fill" và thêm biểu tượng "bi-x-circle-fill"
@@ -249,7 +249,7 @@ async function swapToLearningMode() {
         checkMode();
 
         // Mở toàn màn hình.
-        toggleFullscreen();
+        requestFullscreen();
     } catch (error) {
         console.error(error);
     }
@@ -414,14 +414,14 @@ submitButton.addEventListener('click', function (event) {
     event.preventDefault();
 
     // set kết quả vào ô result và chuẩn bị phát âm thanh
-    if (selectedAnswer == currentQuiz.getCorrectAnswer()) {
+    if (selectedAnswer == currentQuiz.correctAnswer) {
         displayCorrectResult();
         playCorrectAudio();
     } else {
         displayWrongResult();
         playWrongAudio();
 
-        textToSpeech(currentQuiz.getCorrectAnswer());
+        textToSpeech(currentQuiz.correctAnswer);
 
         // Thêm vào câu sai
         wrongQuiz.addQuiz(currentQuiz.currentQuizObject);
