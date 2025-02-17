@@ -1,9 +1,9 @@
-const maxQuestion = 15;
+const maxQuestion = 10;
 
 // Hàm lấy tất cả các câu hỏi từ file vocabulary.csv
 async function getAllQuiz() {
     try {
-        const response = await fetch('https://dangtus.github.io/store/js.hoc_tu_vung/vocabulary.csv');
+        const response = await fetch('https://tudvh.github.io/store/js.hoc_tu_vung/vocabulary.csv');
         const data = await response.text();
         const results = Papa.parse(data, {
             header: true,
@@ -19,7 +19,7 @@ async function getAllQuiz() {
 // Hàm lấy danh sách các câu hỏi ít được trả lời nhất
 function getLeastUsedQuizs(allQuiz, numQuiz) {
     // Lấy danh sách các câu hỏi đã được trả lời từ localStorage
-    answeredQuizs = JSON.parse(localStorage.getItem('answeredQuizs'));
+    answeredQuizs = JSON.parse(localStorage.getItem('answeredQuizs') || '[]');
     console.log('Danh sách những câu hỏi đã trả lời', answeredQuizs);
 
     // Nếu danh sách trả lời rỗng thì trả về toàn bộ danh sách câu hỏi

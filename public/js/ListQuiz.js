@@ -55,24 +55,26 @@ class ListQuiz {
     }
 
     // Add quizs to session
-    addQuizsToSession(sessionQuizs = []) {
+    addQuizzesToSession(sessionQuizzes = []) {
         this.listQuiz.forEach((quiz) => {
-            const index = sessionQuizs.findIndex((ssQuiz) => ssQuiz.id === quiz.id);
-            sessionQuizs[index]?.count
-                ? (sessionQuizs[index].count += 2)
-                : sessionQuizs.push({ id: quiz.id, count: 2 });
+            const index = sessionQuizzes.findIndex((ssQuiz) => ssQuiz.id === quiz.id);
+            sessionQuizzes[index]?.count
+                ? (sessionQuizzes[index].count += 2)
+                : sessionQuizzes.push({ id: quiz.id, count: 2 });
         });
 
-        return sessionQuizs;
+        return sessionQuizzes;
     }
 
     // Add wrong quizs to session
-    addWrongQuizsToSession(sessionQuizs) {
+    addWrongQuizzesToSession(sessionQuizzes = []) {
         this.listQuiz.forEach((quiz) => {
-            const index = sessionQuizs.findIndex((ssQuiz) => ssQuiz.id === quiz.id);
-            sessionQuizs[index]?.((count -= 1));
+            const index = sessionQuizzes.findIndex((ssQuiz) => ssQuiz.id === quiz.id);
+            if (index !== -1) {
+                sessionQuizzes[index].count -= 1;
+            }
         });
 
-        return sessionQuizs;
+        return sessionQuizzes;
     }
 }

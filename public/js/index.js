@@ -31,7 +31,7 @@ let voiceSpeech;
 const utterance = new SpeechSynthesisUtterance();
 const synth = window.speechSynthesis;
 
-const currentVersion = '2.0';
+const currentVersion = '0.1';
 
 function checkVersion() {
     const previousVersion = localStorage.getItem('appVersion');
@@ -143,9 +143,9 @@ function redirectToHome() {
 // Hàm này được sử dụng để lưu trữ các câu hỏi đã trả lời và câu hỏi sai vào phiên làm việc của người dùng.
 function setDataSesstion() {
     // Thêm tất cả các câu hỏi đã trả lời vào phiên làm việc của người dùng.
-    answeredQuizs = learningQuiz.addQuizsToSession(answeredQuizs);
+    answeredQuizs = learningQuiz.addQuizzesToSession(answeredQuizs);
     // Thêm tất cả các câu hỏi sai vào phiên làm việc của người dùng.
-    answeredQuizs = wrongQuiz.addWrongQuizsToSession(answeredQuizs);
+    answeredQuizs = wrongQuiz.addWrongQuizzesToSession(answeredQuizs);
     // Lưu trữ phiên làm việc của người dùng trên trình duyệt bằng cách sử dụng phương thức setItem() của localStorage.
     localStorage.setItem('answeredQuizs', JSON.stringify(answeredQuizs));
 }
